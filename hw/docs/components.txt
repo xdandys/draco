@@ -1,0 +1,77 @@
+---TIPY----
+GPS: UC530 module onboard, battery m621  A NEBO PA6C A NEBO GMS-G9
+mag. SPI: LSM303D
+acc&gyro: MPU-6000 or MPU-9250
+SMPS: ADP3050 nebo linear z +5V na +3.3
+
+radio: FrSky - do FrSky prijimace jde nahrat FW s CPPM vystupem
+radiomodem (alternativa xbee): RFM22B
+
+
+---FINAL---
+GPS: GMS-G9 (GPS + GLONASS + GALILEO, 10Hz, )
+acc & gyro: MPU6000 (SPI mode)
+mag: HMC5983 (SPI mode)
+baro: MS5611 (SPI mode)
+microSD slot:
+MCU: STM32F405VGT6
+
+
+
+
+
+
+
+
+
+rozvaha na počet pinů:
+MISO
+MOSI
+SCK
+CS_HMC5983
+CS_MPU6000
+CS_MS5611
+INT_MPU6000
+LED1
+LED2
+LED3
+PUSHBUTTON
+SWCLK
+SWDIO
+PWM_1
+PWM_2
+PWM_3
+PWM_4
+PWM_5
+PWM_6
+PWM_7
+PWM_8
+PWM_9
+PWM_10
+PPM_INPUT
+SDIO_D0
+SDIO_D1
+SDIO_D2
+SDIO_D3
+SDIO_CLK
+XBEE_RX
+XBEE_TX
+XBEE_CTS
+GPS_RX
+GPX_TX
+USB_DP
+USB_DN
+--EXT--
+SONAR_TRIG
+SONAR_ECHO
+AD_INPUT_VOLTAGE
+AD_CURRENT
+AD_2
+GPIO1
+GPIO2
+GPIO3
+GPIO4
+GPI2C_SDA
+GPI2C_SCL
+GPUART_TX
+GPUART_RX
