@@ -1,4 +1,52 @@
-EESchema-DOCLIB  Version 2.0  Date: Út 8. leden 2013, 17:00:15 CET
+EESchema-DOCLIB  Version 2.0  Date: Čt 17. říjen 2013, 19:41:32 CEST
+#
+$CMP 74AHC04
+D Hex Inverseur
+K HCTMOS not inv
+$ENDCMP
+#
+$CMP 74HC04
+D Hex Inverseur
+K HCMOS not inv
+$ENDCMP
+#
+$CMP 74LS14
+D Hex inverseur schmitt trigger
+K TTL not inv
+$ENDCMP
+#
+$CMP ADA4891-1
+D ADA4891
+$ENDCMP
+#
+$CMP CONN_11X3
+D symbole general de connecteur
+K CONN
+$ENDCMP
+#
+$CMP CONN_12X3
+D Symbole general de connexion
+K CONN
+$ENDCMP
+#
+$CMP CONN_13X3
+D Symbole general de connexion
+K CONN
+$ENDCMP
+#
+$CMP LTC4411
+D ideal diode circuit
+$ENDCMP
+#
+$CMP MICROSD
+D MicroSD slot with ejection and switch
+K CONN
+$ENDCMP
+#
+$CMP MICROUSB
+D Symbole general de connecteur
+K CONN
+$ENDCMP
 #
 $CMP MOSFET_N
 F transistors/mos/*.*
@@ -6,6 +54,33 @@ $ENDCMP
 #
 $CMP NDT3055L
 F transistors/mos/*.*
+$ENDCMP
+#
+$CMP PDTA114YE
+F transistors/bipolar/*.*
+$ENDCMP
+#
+$CMP PDTC114EE
+F transistors/bipolar/*.*
+$ENDCMP
+#
+$CMP SN65HVD233
+D ideal diode circuit
+$ENDCMP
+#
+$CMP SN74AHC1G04
+D Single inverter
+K HCTMOS not inv
+$ENDCMP
+#
+$CMP STG719
+D Dual Switch inverseur
+K switch
+$ENDCMP
+#
+$CMP XBEE
+D Symbole general de connecteur
+K CONN
 $ENDCMP
 #
 #End Doc Library

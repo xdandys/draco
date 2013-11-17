@@ -1,0 +1,15 @@
+(module 1pin (layer F.Cu)
+  (at 0 0)
+  (descr "module 1 pin (ou trou mecanique de percage)")
+  (tags DEV)
+  (path 1pin)
+  (fp_text reference 1PIN (at 0 -3.048) (layer F.SilkS) hide
+    (effects (font (size 1.016 1.016) (thickness 0.254)))
+  )
+  (fp_text value P*** (at 0 2.794) (layer F.SilkS) hide
+    (effects (font (size 1.016 1.016) (thickness 0.254)))
+  )
+  (pad "" np_thru_hole circle (at 0 0) (size 3.6 3.6) (drill 2.2)
+    (layers *.Cu *.Mask F.SilkS)
+  )
+)

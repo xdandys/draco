@@ -1,0 +1,5 @@
+*.bck
+*.bak
+*.o
+*kicad_pcb-bak
+*autosave*

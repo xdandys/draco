@@ -1,5 +1,5 @@
 ---TIPY----
-GPS: UC530 module onboard, battery m621  A NEBO PA6C A NEBO GMS-G9
+GPS: UC530 module onboard, battery m621  A NEBO PA6C A NEBO GMS-G9; LEA-6H od 3DR - nejlepsi presnost!!!!
 mag. SPI: LSM303D
 acc&gyro: MPU-6000 or MPU-9250
 SMPS: ADP3050 nebo linear z +5V na +3.3
@@ -13,15 +13,19 @@ GPS: GMS-G9 (GPS + GLONASS + GALILEO, 10Hz, )
 acc & gyro: MPU6000 (SPI mode)
 mag: HMC5983 (SPI mode)
 baro: MS5611 (SPI mode)
-microSD slot:
+microSD slot: http://www.digikey.com/product-detail/en/101-00660-68-6/101-00660-68-6-1-ND/2187099?cur=USD
 MCU: STM32F405VGT6
-
-
-
-
-
-
-
+3.3V reg.: ADP3338AKCZ-3.3R (stabil_sot223_1)
+shottky: PMEG3010BEA (sod323)
+servo pin header: from hobbyking (pin_strip_10x3-90)
+microUSB: http://www.digikey.com/product-detail/en/10104110-0001LF/609-4052-1-ND/2350358
+NPN/PNP 100mA: PDTC114EE, PDTA114YE
+crystal: http://www.digikey.com/product-detail/en/ABM3-8.000MHZ-D2Y-T/535-10630-1-ND/2344632
+LED green: http://www.digikey.com/product-detail/en/APA2106ZGC/754-1062-1-ND/1747779
+LED blue: http://www.digikey.com/product-detail/en/APA2106QBC%2FD/754-1425-1-ND/2163783
+LED orange: http://www.digikey.com/product-detail/en/APA2106SECK/754-1059-1-ND/1747776
+LED red: http://www.digikey.com/product-detail/en/APA2106SURCK/754-1060-1-ND/1747777
+konektory xbee: http://www.digikey.com/product-search/en?vendor=0&keywords=S5901-10-ND
 
 
 rozvaha na počet pinů:
