@@ -38,7 +38,7 @@ $Descr A3 16535 11693
 encoding utf-8
 Sheet 3 3
 Title "DRACO - MCUs sheet"
-Date "10 nov 2013"
+Date "28 dec 2013"
 Rev "0.9"
 Comp "dandys"
 Comment1 ""
@@ -1364,8 +1364,6 @@ Wire Wire Line
 	1800 6500 1800 6450
 Wire Wire Line
 	1800 6450 1850 6450
-Text Notes 14750 2600 0    60   ~ 0
-Note: Connected NC pins\nare used for PCB routing.\nThis is explicitly allowed by\ndatasheet.
 Wire Wire Line
 	9700 3000 9750 3000
 Wire Wire Line
@@ -1432,8 +1430,6 @@ F 3 "" H 7650 6750 60  0000 C CNN
 $EndComp
 Wire Wire Line
 	7650 6750 7650 6800
-Text Notes 8650 5250 0    60   ~ 0
-STM32F373CCT6 also possible
 Text Notes 3650 7350 0    60   ~ 0
 STM32F427VIT6 is better alternative
 $EndSCHEMATC
