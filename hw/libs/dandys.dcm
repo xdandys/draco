@@ -1,4 +1,4 @@
-EESchema-DOCLIB  Version 2.0  Date: Čt 17. říjen 2013, 19:41:32 CEST
+EESchema-DOCLIB  Version 2.0  Date: Ne 26. leden 2014, 14:41:32 CET
 #
 $CMP 74AHC04
 D Hex Inverseur
@@ -52,7 +52,19 @@ $CMP MOSFET_N
 F transistors/mos/*.*
 $ENDCMP
 #
+$CMP MOSFET_P
+F transistors/mos/*.*
+$ENDCMP
+#
 $CMP NDT3055L
+F transistors/mos/*.*
+$ENDCMP
+#
+$CMP NTA4151PT1G
+F transistors/mos/*.*
+$ENDCMP
+#
+$CMP NTA4153NT1G
 F transistors/mos/*.*
 $ENDCMP
 #

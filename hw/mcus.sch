@@ -38,7 +38,7 @@ $Descr A3 16535 11693
 encoding utf-8
 Sheet 3 3
 Title "DRACO - MCUs sheet"
-Date "28 dec 2013"
+Date "26 jan 2014"
 Rev "0.9"
 Comp "dandys"
 Comment1 ""
