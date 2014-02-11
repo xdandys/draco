@@ -38,7 +38,7 @@ $Descr A3 16535 11693
 encoding utf-8
 Sheet 3 3
 Title "DRACO - MCUs sheet"
-Date "26 jan 2014"
+Date "11 feb 2014"
 Rev "0.9"
 Comp "dandys"
 Comment1 ""
@@ -1372,10 +1372,10 @@ Text GLabel 9750 3200 2    60   Output ~ 0
 OSD_PIXEL_CLOCK
 Wire Wire Line
 	9700 3200 9750 3200
-Text GLabel 6650 2400 0    60   Input ~ 0
+Text GLabel 6500 2400 0    60   Input ~ 0
 OSD_PIXEL_CLOCK
 Wire Wire Line
-	6650 2400 6700 2400
+	6500 2400 6700 2400
 $Comp
 L R R62
 U 1 1 5276B60B
@@ -1432,4 +1432,9 @@ Wire Wire Line
 	7650 6750 7650 6800
 Text Notes 3650 7350 0    60   ~ 0
 STM32F427VIT6 is better alternative
+Wire Wire Line
+	6600 2400 6600 1900
+Wire Wire Line
+	6600 1900 6700 1900
+Connection ~ 6600 2400
 $EndSCHEMATC

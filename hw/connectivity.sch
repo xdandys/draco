@@ -38,7 +38,7 @@ $Descr A3 16535 11693
 encoding utf-8
 Sheet 2 3
 Title "DRACO - connectivity sheet"
-Date "26 jan 2014"
+Date "11 feb 2014"
 Rev "0.9"
 Comp "dandys"
 Comment1 ""
