@@ -38,8 +38,8 @@ $Descr A3 16535 11693
 encoding utf-8
 Sheet 1 3
 Title "DRACO - Drone All in one Controller"
-Date "11 feb 2014"
-Rev "0.9"
+Date "15 feb 2014"
+Rev "1.0"
 Comp "dandys"
 Comment1 ""
 Comment2 ""

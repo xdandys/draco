@@ -1,4 +1,4 @@
-EESchema-DOCLIB  Version 2.0  Date: Ne 26. leden 2014, 14:41:32 CET
+EESchema-DOCLIB  Version 2.0  Date: So 15. únor 2014, 17:59:12 CET
 #
 $CMP 74AHC04
 D Hex Inverseur
@@ -35,6 +35,10 @@ K CONN
 $ENDCMP
 #
 $CMP LTC4411
+D ideal diode circuit
+$ENDCMP
+#
+$CMP MAX4090
 D ideal diode circuit
 $ENDCMP
 #
