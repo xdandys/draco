@@ -1,4 +1,4 @@
-update=Po 4. listopad 2013, 22:40:25 CET
+update=Po 17. únor 2014, 20:13:29 CET
 version=1
 last_client=pcbnew
 [general]
@@ -51,12 +51,12 @@ LibName31=dandys
 LibName32=logo
 [pcbnew]
 version=1
-LastNetListRead=
+LastNetListRead=draco.net
 UseCmpFile=1
-PadDrill="    2,200000"
-PadDrillOvalY="    2,200000"
-PadSizeH="    2,200000"
-PadSizeV="    2,200000"
+PadDrill="    0,000000"
+PadDrillOvalY="    0,000000"
+PadSizeH="    0,750000"
+PadSizeV="    0,200000"
 PcbTextSizeV="    0,770000"
 PcbTextSizeH="    0,770000"
 PcbTextThickness="    0,220000"
@@ -98,3 +98,5 @@ LibName25=w_smd_qfn
 LibName26=w_conn_misc
 LibName27=logo
 LibName28=logo_scaled1
+LibName29=w_logo
+LibName30=w_switch

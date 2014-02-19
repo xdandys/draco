@@ -1,4 +1,4 @@
-EESchema-DOCLIB  Version 2.0  Date: So 15. únor 2014, 17:59:12 CET
+EESchema-DOCLIB  Version 2.0  Date: Ne 16. únor 2014, 21:13:38 CET
 #
 $CMP 74AHC04
 D Hex Inverseur
@@ -32,6 +32,15 @@ $ENDCMP
 $CMP CONN_13X3
 D Symbole general de connexion
 K CONN
+$ENDCMP
+#
+$CMP DUMMY
+D 1 pin
+K CONN
+$ENDCMP
+#
+$CMP FLASH-SPI-SO8
+D generic SPI flash in SO8
 $ENDCMP
 #
 $CMP LTC4411
