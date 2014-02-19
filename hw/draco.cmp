@@ -1,4 +1,4 @@
-Cmp-Mod V01 Created by CvPcb (2013-may-18)-stable date = So 15. únor 2014, 21:14:15 CET
+Cmp-Mod V01 Created by CvPcb (2013-may-18)-stable date = Út 18. únor 2014, 20:24:26 CET
 
 BeginCmp
 TimeStamp = /524DAFB5/524DB39B;
@@ -281,6 +281,13 @@ IdModule  = c_0603;
 EndCmp
 
 BeginCmp
+TimeStamp = /524DA64E/530123B1;
+Reference = C41;
+ValeurCmp = 100nF;
+IdModule  = c_0603;
+EndCmp
+
+BeginCmp
 TimeStamp = /524DA64E/525A61DC;
 Reference = C42;
 ValeurCmp = 100nF;
@@ -313,6 +320,13 @@ TimeStamp = /524DA64E/52FFF1C1;
 Reference = C49;
 ValeurCmp = 10nF;
 IdModule  = c_0603;
+EndCmp
+
+BeginCmp
+TimeStamp = /524DAFB5/5302549F;
+Reference = D1;
+ValeurCmp = PMEG6010CEH;
+IdModule  = sod123;
 EndCmp
 
 BeginCmp
@@ -362,6 +376,41 @@ TimeStamp = /524DA64E/524DA9A9;
 Reference = D8;
 ValeurCmp = CD0603-S01575;
 IdModule  = r_0603;
+EndCmp
+
+BeginCmp
+TimeStamp = /524DAFB5/5300B9E8;
+Reference = G1;
+ValeurCmp = DUMMY;
+IdModule  = ;
+EndCmp
+
+BeginCmp
+TimeStamp = /524DAFB5/5300B9F7;
+Reference = G2;
+ValeurCmp = DUMMY;
+IdModule  = ;
+EndCmp
+
+BeginCmp
+TimeStamp = /524DAFB5/5300BA06;
+Reference = G3;
+ValeurCmp = DUMMY;
+IdModule  = ;
+EndCmp
+
+BeginCmp
+TimeStamp = /524DAFB5/5300BA15;
+Reference = G4;
+ValeurCmp = DUMMY;
+IdModule  = ;
+EndCmp
+
+BeginCmp
+TimeStamp = /524DAFB5/530112E0;
+Reference = G5;
+ValeurCmp = DUMMY;
+IdModule  = ;
 EndCmp
 
 BeginCmp
@@ -463,17 +512,10 @@ IdModule  = picoblade_6-90;
 EndCmp
 
 BeginCmp
-TimeStamp = /524DA64E/525435EC;
-Reference = P15;
-ValeurCmp = CONN_1;
-IdModule  = testpoint_pad;
-EndCmp
-
-BeginCmp
-TimeStamp = /524DA64E/5254368F;
-Reference = P16;
-ValeurCmp = CONN_1;
-IdModule  = testpoint_pad;
+TimeStamp = /524DA64E/5303B982;
+Reference = P14;
+ValeurCmp = CONN_2;
+IdModule  = pin_strip_2;
 EndCmp
 
 BeginCmp
@@ -988,6 +1030,13 @@ IdModule  = r_0603;
 EndCmp
 
 BeginCmp
+TimeStamp = /524DA64E/53012C1E;
+Reference = R62;
+ValeurCmp = 39k;
+IdModule  = r_0603;
+EndCmp
+
+BeginCmp
 TimeStamp = /524DAFB5/5276C028;
 Reference = R63;
 ValeurCmp = 470R;
@@ -1051,6 +1100,13 @@ IdModule  = sot23-6;
 EndCmp
 
 BeginCmp
+TimeStamp = /524DA64E/53027635;
+Reference = SW2;
+ValeurCmp = EVQP7A01K;
+IdModule  = EVQP7J01K;
+EndCmp
+
+BeginCmp
 TimeStamp = /524DAFB5/524DB395;
 Reference = U1;
 ValeurCmp = XBEE;
@@ -1095,7 +1151,7 @@ EndCmp
 BeginCmp
 TimeStamp = /524DA64E/524DA92A;
 Reference = U7;
-ValeurCmp = STM32F405VG;
+ValeurCmp = STM32F427VIT6;
 IdModule  = TQFP-100;
 EndCmp
 
@@ -1111,6 +1167,13 @@ TimeStamp = /524DA64E/525AA460;
 Reference = U9;
 ValeurCmp = MS5611;
 IdModule  = MS5611;
+EndCmp
+
+BeginCmp
+TimeStamp = /524DA64E/530122B8;
+Reference = U10;
+ValeurCmp = FLASH-SPI-SO8;
+IdModule  = so-8;
 EndCmp
 
 BeginCmp
