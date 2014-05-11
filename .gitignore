@@ -1,5 +1,16 @@
 *.bck
 *.bak
 *.o
+*.d
+*.hex
+*.bin
+*.elf
+*.map
+*.backup
 *kicad_pcb-bak
 *autosave*
+.settings
+.project
+.cproject
+.idea
+__pycache__
