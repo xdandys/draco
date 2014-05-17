@@ -29,6 +29,7 @@
 *.map
 *.backup
 *kicad_pcb-bak
+*.kicad
 *.ps
 *autosave*
 .settings
