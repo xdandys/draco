@@ -1,13 +1,3 @@
----TIPY----
-GPS: UC530 module onboard, battery m621  A NEBO PA6C A NEBO GMS-G9; LEA-6H od 3DR - nejlepsi presnost!!!!
-mag. SPI: LSM303D
-acc&gyro: MPU-6000 or MPU-9250
-SMPS: ADP3050 nebo linear z +5V na +3.3
-
-radio: FrSky - do FrSky prijimace jde nahrat FW s CPPM vystupem
-radiomodem (alternativa xbee): RFM22B
-
-
 ---FINAL---
 GPS: GMS-G9 (GPS + GLONASS + GALILEO, 10Hz, )
 acc & gyro: MPU6000 (SPI mode)

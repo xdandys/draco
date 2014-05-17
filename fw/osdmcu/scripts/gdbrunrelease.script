@@ -1,0 +1,4 @@
+target remote localhost:3333
+monitor reset halt
+monitor flash write_image erase build/osdmcu.hex
+monitor reset run

@@ -1,3 +1,23 @@
+# Object files
+*.o
+*.ko
+*.obj
+*.elf
+# Libraries
+*.lib
+*.a
+# Shared objects (inc. Windows DLLs)
+*.dll
+*.so
+*.so.*
+*.dylib
+# Executables
+*.exe
+*.out
+*.app
+*.i*86
+*.x86_64
+*.hex
 *.bck
 *.bak
 *.o
@@ -5,12 +25,22 @@
 *.hex
 *.bin
 *.elf
+*.dis
 *.map
 *.backup
 *kicad_pcb-bak
+*.ps
 *autosave*
 .settings
 .project
 .cproject
 .idea
 __pycache__
+CMakeCache.txt
+CMakeFiles
+Makefile
+cmake_install.cmake
+install_manifest.txt
+.grive
+.pydevproject
+build-*

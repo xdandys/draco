@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/images">
+        <file>osd_back.jpg</file>
+        <file>osd_back2.jpg</file>
+    </qresource>
+</RCC>
