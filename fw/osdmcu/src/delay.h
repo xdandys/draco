@@ -23,7 +23,7 @@ static inline uint32_t tickIntervalNs(uint32_t ticks1, uint32_t ticks2)
 }
 static inline uint32_t getTick(void) {return DWT->CYCCNT;}
 
-void initSystick(void);
+void sysTimerInit(void);
 
 uint32_t getElapsedMs(void);
 

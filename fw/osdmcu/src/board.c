@@ -509,7 +509,7 @@ static void initGPIOs(void)
     }
 }
 
-void initBoard(void)
+void boardInit(void)
 {
     CoreDebug->DEMCR |= CoreDebug_DEMCR_TRCENA_Msk;
     DWT->CTRL |= DWT_CTRL_CYCCNTENA_Msk;

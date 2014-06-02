@@ -19,24 +19,20 @@
 */
 
 /**
- * @file    osd.h
+ * @file    comm.h
  * @brief   brief description here
  *
  */
 
 
-#ifndef OSD_H_
-#define OSD_H_
+#ifndef COMM_H_
+#define COMM_H_
+#include <stdint.h>
 
-#include "osddevice.h"
+void commProcess(void);
+void commStart(void);
+void commStop(void);
 
-
-void osdMain(void);
-
-extern OsdDevice spiOsdDevice;
-
-
-
-#endif /* OSD_H_ */
+#endif /* COMM_H_ */
 
 /** @} */

@@ -16,7 +16,7 @@ void SysTick_Handler(void)
     msElapsed++;
 }
 
-void initSystick(void)
+void sysTimerInit(void)
 {
     SysTick_Config(SYSCLK_FREQ / 1000);
 }

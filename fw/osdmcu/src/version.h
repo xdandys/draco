@@ -13,16 +13,18 @@
 
 
 
+
 #if defined(DEVICE_DRACO_OSD)
     #define VARIANT "a"
     #define DEVIDV  "DRACO-OSD"
 #endif
 
-#define VMAJOR  "0"
-#define VMINOR  "01"
+#define VMAJOR  0
+#define VMINOR  01
 
 
-#define VERSIONSTRING   DEVIDV " " VMAJOR "." VMINOR VARIANT
+#define V_STRINGIFY(str)   #str
+#define VERSIONSTRING   DEVIDV " " V_STRINGIFY(VMAJOR) "." V_STRINGIFY(VMINOR) VARIANT
 
 
 extern const char __APP_VERSION[];

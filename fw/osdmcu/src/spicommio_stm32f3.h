@@ -1,6 +1,6 @@
 /*
     DRACO - Copyright (C) 2013-2014 Daniel Strnad
-                 
+
     This file is part of DRACO project.
 
     DRACO is free software; you can redistribute it and/or modify
@@ -19,24 +19,16 @@
 */
 
 /**
- * @file    osd.h
+ * @file    spicommio_stm32f3.h
  * @brief   brief description here
  *
  */
 
+#ifndef SPICOMMIO_STM32F3_H_
+#define SPICOMMIO_STM32F3_H_
 
-#ifndef OSD_H_
-#define OSD_H_
+#include "stdint.h"
+#include "spicomm.h"
 
-#include "osddevice.h"
-
-
-void osdMain(void);
-
-extern OsdDevice spiOsdDevice;
-
-
-
-#endif /* OSD_H_ */
-
-/** @} */
+extern SpiCommIo spiCommIo;
+#endif

@@ -235,6 +235,7 @@ const unsigned long __APP_CRC = 0x00000000;              // will be filled by st
 
 
 void Default_Handler(void) {
+    gpioControl(PinLedRed, 1);
     DebugSendString("!!! Default Handler !!!");
     dprint("0x%x", NVIC->ISPR[0]);
     while (1) {}
@@ -242,30 +243,35 @@ void Default_Handler(void) {
 
 void NMI_Handler(void)
 {
+    gpioControl(PinLedRed, 1);
     DebugSendString("!!! NMI exception !!!");
     while(1);
 }
 
 void HardFault_Handler(void)
 {
+    gpioControl(PinLedRed, 1);
     DebugSendString("!!! HardFault exception !!!");
     while(1);
 }
 
 void MemManage_Handler(void)
 {
+    gpioControl(PinLedRed, 1);
     DebugSendString("!!! MemManage exception !!!");
     while(1);
 }
 
 void BusFault_Handler(void)
 {
+    gpioControl(PinLedRed, 1);
     DebugSendString("!!! BusFault exception !!!");
     while(1);
 }
 
 void UsageFault_Handler(void)
 {
+    gpioControl(PinLedRed, 1);
     DebugSendString("!!! UsageFault exception !!!");
     while(1);
 }
