@@ -20,11 +20,6 @@
 
 
 #define DEBUG_USE_SEMIHOSTING
-
-static uint8_t dbgready = 0;
-
-
-
 #define DEBUG_BAUDRATE  115200
 
 

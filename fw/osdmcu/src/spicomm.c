@@ -38,6 +38,7 @@
 #define FRAME_TYPE_ANSWER_0                     0x04
 #define FRAME_TYPE_ANSWER_1                     0x05
 #define FRAME_TYPE_SEQNO                        0x01
+#define FRAME_TYPE_SYNC                         0xff
 
 #define RX_STATE_WAIT_START                     0
 #define RX_STATE_WAIT_FRAME_TYPE                1
@@ -170,6 +171,8 @@ static void rxByte(SpiComm *spiComm, uint8_t b)
                 spiComm->rxBuff = spiComm->rxRequestFrame;
                 spiComm->rxRequestFrameNo = b & FRAME_TYPE_SEQNO;
             }
+        } else if (b == FRAME_TYPE_SYNC) {
+            spiComm->rxRequestLastNo = 255;
         }
 
         spiComm->rxState = RX_STATE_WAIT_LENGTH;
