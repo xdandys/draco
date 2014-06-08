@@ -42,7 +42,7 @@ SpiComm spiComm;
 #define REQ_ID_HUD_ENABLE           1
 #define REQ_ID_POWER_LIMITS         10
 #define REQ_ID_FLIGHT_MODE          11
-
+#define REQ_ID_SET_UNITS            12
 
 #define DATA_ID_LED_CONTROL         0
 #define DATA_ID_PFD                 1
@@ -215,6 +215,16 @@ static void processRequestFlightMode(const uint8_t *data, uint8_t len)
 
     hudSetFlightMode((const char*)data);
 }
+
+static void processRequestSetUnits(const uint8_t *data, uint8_t len)
+{
+    if (!len)
+        return;
+
+    HudUnits units = (data[0]) == 0 ? HUD_UNITS_METRIC : HUD_UNITS_IMPERIAL;
+    hudSetUnits(units);
+}
+
 //------------------------------------------------------------------------
 //
 //         SPIComm bindings
@@ -256,6 +266,12 @@ static void onRequestReceived(void *priv, uint8_t *data, uint8_t len, uint8_t *a
         processRequestFlightMode(&data[1], len - 1);
         *ansLen = 0;
         break;
+
+    case REQ_ID_SET_UNITS:
+        processRequestSetUnits(&data[1], len - 1);
+        *ansLen = 0;
+        break;
+
     }
 }
 
