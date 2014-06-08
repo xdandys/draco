@@ -72,6 +72,7 @@ void wgGpsInit(WgGps *wg)
     osdWidgetInit(&wg->widget);
     osdWidgetSetCfg(&wg->widget, &cfg);
     wgTextInit(&wg->wgtext, "satelite", "consolas10");
+    wgTextBlink(&wg->wgtext, !wg->fix, 300, 0);
     // wgTextInit(&wg->wgtext, "clock", "consolas10");
 }
 

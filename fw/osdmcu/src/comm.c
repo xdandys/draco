@@ -167,7 +167,7 @@ static void processDataGnss(const uint8_t *data, uint8_t len)
 
     memcpy(&dataGnss, data, sizeof(struct DataGnss));
 
-    hudSetGnss(dataGnss.fix != 0, dataGnss.lat, dataGnss.lon, dataGnss.pdop / 100.0f, dataGnss.satCount);
+    hudSetGnss(dataGnss.fix, dataGnss.lat, dataGnss.lon, dataGnss.pdop / 100.0f, dataGnss.satCount);
 }
 
 static void processDataPower(const uint8_t *data, uint8_t len)

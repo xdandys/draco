@@ -32,6 +32,7 @@
 *.kicad
 *.ps
 *autosave*
+*.user
 .settings
 .project
 .cproject
