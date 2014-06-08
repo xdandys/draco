@@ -51,7 +51,7 @@ static void paint(void *widget, OsdPainter *painter, int x, int y)
     osdPainterSetClipping(painter, -200, -50, +200, +50);
     osdPainterSetPen(painter, &attitudePen);
 
-    osdPainterTranslate(painter, 0, (int)(-self->pitchAngle * self->pitchScale));
+    osdPainterTranslate(painter, 0, (int)(self->pitchAngle * self->pitchScale));
 
     osdPainterRotate(painter, -self->rollAngle);
     osdPainterDrawLine(painter, -LONG_HORIZONT_LINE_LEN / 2, -3, +LONG_HORIZONT_LINE_LEN / 2, -3);

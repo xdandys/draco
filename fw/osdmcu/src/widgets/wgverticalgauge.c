@@ -158,7 +158,7 @@ static void paint(void *widget, OsdPainter *painter, int x, int y)
         poly[4] = NEEDLE_LENGTH + width + 1; poly[5] =  -height / 2 -1;
         poly[6] = NEEDLE_LENGTH + width + 1; poly[7] = height / 2 + 1;
         poly[8] = NEEDLE_LENGTH;  poly[9] = height / 2 +1;
-        textValueX = NEEDLE_LENGTH;
+        textValueX = NEEDLE_LENGTH + 1;
         textUnitX = LONG_NOTCH_LEN + 28;
     } else {
         poly[0] = -1; poly[1] =  0;
@@ -167,7 +167,7 @@ static void paint(void *widget, OsdPainter *painter, int x, int y)
         poly[6] = -NEEDLE_LENGTH - width - 1; poly[7] = height / 2 + 1;
         poly[8] = -NEEDLE_LENGTH;  poly[9] = height / 2 +1;
 
-        textValueX = - NEEDLE_LENGTH - width;
+        textValueX = - NEEDLE_LENGTH - width + 1;
         textUnitX = - LONG_NOTCH_LEN - 45;
 
     }

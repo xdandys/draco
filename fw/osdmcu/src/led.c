@@ -101,6 +101,8 @@ static const LedMode *modeIndexToMode(uint8_t mode)
 
 static void processLed(Led *led, uint32_t ticksMs)
 {
+    if (!led->mode) return;
+
     if ((led->mode->duty == 0) || (led->mode->duty == 100))
         return;
 

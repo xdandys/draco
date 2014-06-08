@@ -19,36 +19,31 @@
 */
 
 /**
- * @file    wggps.h
+ * @file    wgsplash.h
  * @brief   brief description here
  *
  */
 
 
-#ifndef WGGPS_H_
-#define WGGPS_H_
+#ifndef WGSPLASH_H_
+#define WGSPLASH_H_
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 #include "osdwidget.h"
-#include "wgtext.h"
-
 typedef struct {
     OsdWidget widget;
-    WgText wgtext;
-    int32_t lat;
-    int32_t lon;
-    float pdop;
-    uint8_t satCount;
-    bool fix;
-} WgGps;
+    uint8_t major;
+    uint8_t minor;
+} WgSplash;
 
-void wgGpsInit(WgGps *wg);
-void wgGpsSet(WgGps *wg, bool fix, int32_t lat, int32_t lon, float pdop, uint8_t satCount);
+void wgSplashInit(WgSplash *wg, uint8_t major, uint8_t minor);
+
+
 #ifdef __cplusplus
 }
 #endif
-#endif /* WGGPS_H_ */
+#endif /* WGSPLASH_H_ */
 
 /** @} */

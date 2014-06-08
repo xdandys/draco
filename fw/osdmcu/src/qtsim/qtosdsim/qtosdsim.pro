@@ -19,6 +19,8 @@ SOURCES += main.cpp\
         ../../osdpainter.c\
         ../../osdscreen.c\
         ../../utils.c \
+        ../../swtimer.c \
+        ../../hud.c \
         ../../resources/*.c \
         ../../widgets/*.c \
         qosdwidget.cpp

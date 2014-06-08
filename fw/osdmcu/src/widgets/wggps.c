@@ -50,10 +50,10 @@ static void paint(void *widget, OsdPainter *painter, int x, int y)
     int32_t lat = ABS(self->lat);
     int32_t lon = ABS(self->lon);
     char gpsText[45];
-    lsprintf(gpsText, "%c%d.%07d\n%c%d.%07d\nHDOP:%d.%d SAT:%u",
+    lsprintf(gpsText, "%c%d.%07d\n%c%d.%07d\nPDOP:%d.%d SAT:%u",
              latPrefix(self->lat), lat / 10000000, lat % 10000000 ,
              lonPrefix(self->lon), lon / 10000000, lon % 10000000 ,
-             (int)self->hdop, (int)(self->hdop * 10.0) % 10,
+             (int)self->pdop, (int)(self->pdop * 10.0) % 10,
              self->satCount);
     wgTextSetText(&self->wgtext, gpsText);
     wgTextPaint(&self->wgtext, painter, x, y);
@@ -75,13 +75,13 @@ void wgGpsInit(WgGps *wg)
     // wgTextInit(&wg->wgtext, "clock", "consolas10");
 }
 
-void wgGpsSet(WgGps *wg, bool fix, int32_t lat, int32_t lon, float hdop, uint8_t satCount)
+void wgGpsSet(WgGps *wg, bool fix, int32_t lat, int32_t lon, float pdop, uint8_t satCount)
 {
-    if ((fix != wg->fix) || (lat != wg->lat) || (lon != wg->lon) || (hdop != wg->hdop) || (satCount != wg->satCount)) {
+    if ((fix != wg->fix) || (lat != wg->lat) || (lon != wg->lon) || (pdop != wg->pdop) || (satCount != wg->satCount)) {
         wg->fix = fix;
         wg->lat = lat;
         wg->lon = lon;
-        wg->hdop = hdop;
+        wg->pdop = pdop;
         wg->satCount = satCount;
         wgTextBlink(&wg->wgtext, !fix, 300, 0);
         osdWidgetRedraw(&wg->widget);

@@ -8,7 +8,6 @@
 
 #include "swtimer.h"
 #include "swtimer_config.h"
-#include "debug.h"
 #include <string.h>
 
 struct swTimer {
@@ -47,7 +46,6 @@ int8_t swTimerInstall(void(*timeoutRoutine)(void*), void *arg)
 {
     int8_t slot = getFreeSlot();
     if (slot < 0) {
-        dprint("no free timer slot!");
         return slot;
     }
 
@@ -68,8 +66,7 @@ void swTimerUnInstall(int8_t index)
 
 int8_t swTimerStart(int8_t index, uint32_t interval, uint8_t shotsNr)
 {
-    if (!validIndex(index)) {
-        dprint("can't start non-existing timer!");
+    if (!validIndex(index)) {        
         return -1;
     }
 

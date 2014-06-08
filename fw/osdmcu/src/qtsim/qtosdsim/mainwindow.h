@@ -13,6 +13,7 @@
 #include <widgets/wgpower.h>
 #include <widgets/wgstopwatch.h>
 #include <widgets/wgmode.h>
+#include <widgets/wgsplash.h>
 
 namespace Ui {
 class MainWindow;
@@ -50,6 +51,7 @@ private:
     WgPower wgPower;
     WgStopwatch wgStopwatch;
     WgMode wgMode;
+    WgSplash wgSplash;
 };
 
 #endif // MAINWINDOW_H

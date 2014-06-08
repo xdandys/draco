@@ -11,6 +11,11 @@
 
 #ifndef SWTIMER_H_
 #define SWTIMER_H_
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+
 
 #include <stdint.h>
 
@@ -98,4 +103,8 @@ int8_t swTimerStop(int8_t index);
 
 void swTimerProcess(void);
 
+
+#ifdef __cplusplus
+}
+#endif
 #endif /* SWTIMER_H_ */
