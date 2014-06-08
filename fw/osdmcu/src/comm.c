@@ -221,7 +221,7 @@ static void processRequestSetUnits(const uint8_t *data, uint8_t len)
     if (!len)
         return;
 
-    HudUnits units = (data[0]) == 0 ? HUD_UNITS_METRIC : HUD_UNITS_IMPERIAL;
+    HudUnits units = (data[0] == 0) ? HUD_UNITS_METRIC : HUD_UNITS_IMPERIAL;
     hudSetUnits(units);
 }
 

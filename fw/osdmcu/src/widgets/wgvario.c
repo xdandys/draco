@@ -61,7 +61,7 @@ static void paint(void *widget, OsdPainter *painter, int x, int y)
     osdPainterSetFont(painter, osdFontByName(varioFont));
     char str[12];
     if (self->vspeed <= 0)
-        lsprintf(str, "%d.%d%s", (int)self->vspeed, ABS((int)(self->vspeed * 10) % 10), self->units);
+        lsprintf(str, "-%d.%d%s", ABS((int)self->vspeed), ABS((int)(self->vspeed * 10) % 10), self->units);
     else
         lsprintf(str, "+%d.%d%s", (int)self->vspeed, ABS((int)(self->vspeed * 10) % 10), self->units);
     osdPainterDrawText(painter, 6, -7, str);
