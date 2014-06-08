@@ -337,7 +337,7 @@ static const GpioItem GPIOInitTable[] = {
                 .defaultOutputState = 0,
                 .logic = NonInverted,
                 .altFunc = 0,
-                .exti = GpioExtiFalling,
+                .exti = GpioExtiRising,
         },
 
         [PinOsdVout] =

@@ -19,6 +19,7 @@ void SysTick_Handler(void)
 void sysTimerInit(void)
 {
     SysTick_Config(SYSCLK_FREQ / 1000);
+    NVIC_SetPriority(SysTick_IRQn, 15);
 }
 
 uint32_t getElapsedMs(void)

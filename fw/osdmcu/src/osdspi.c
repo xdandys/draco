@@ -38,12 +38,19 @@
 
 #define VIDEO_BUFFER_HRES       320
 #define VIDEO_BUFFER_VRES       240
+#define LINE_BUFFER_PADDING     12
 #define VIDEO_BUFFER_SIZE       ((VIDEO_BUFFER_HRES * VIDEO_BUFFER_VRES) / 32)
+
+#define STATE_NOT_INITIALIZED           0
+#define STATE_SYSTEM_DETECTION          1
+#define STATE_RUNNING                   2
+#define DETECTION_PAL_LINE_THRESHOLD    280
+
 
 VIDEO_BUFFER_MEM static uint32_t levelBuffer[2][VIDEO_BUFFER_SIZE];
 VIDEO_BUFFER_MEM static uint32_t maskBuffer[2][VIDEO_BUFFER_SIZE];
-VIDEO_BUFFER_MEM static uint32_t levelLineBuffer[2][VIDEO_BUFFER_HRES / 32];
-VIDEO_BUFFER_MEM static uint32_t maskLineBuffer[2][VIDEO_BUFFER_HRES / 32];
+VIDEO_BUFFER_MEM static uint32_t levelLineBuffer[2][VIDEO_BUFFER_HRES / 32 + LINE_BUFFER_PADDING / 4];
+VIDEO_BUFFER_MEM static uint32_t maskLineBuffer[2][VIDEO_BUFFER_HRES / 32 + 4 + LINE_BUFFER_PADDING / 4];
 
 static uint32_t *levelLine;
 static uint32_t *maskLine;
@@ -53,13 +60,13 @@ volatile uint32_t dbgStart = 0, dbgStop = 0;
 typedef struct {
     const char *name;
     uint16_t vOffsetLines;
-    uint32_t hOffsetNs;
+    uint8_t offsetBytes;
     uint16_t lineCount;
     uint32_t linePeriod;
 }TvSystem;
 
 typedef struct {
-    volatile uint8_t initialized;
+    volatile uint8_t state;
     volatile uint32_t linecounter;
     volatile uint8_t lineInProgress;
     const TvSystem *tvSys;
@@ -80,40 +87,60 @@ typedef struct {
 const TvSystem tvPal = {
         .name = "PAL",
         .vOffsetLines = 44,
-        .hOffsetNs = 10000,
+        .offsetBytes = 5,
         .lineCount = 240,
         .linePeriod = 54000,
 };
 
 const TvSystem tvNtsc = {
         .name = "NTSC",
-        .vOffsetLines = 30,
-        .hOffsetNs = 9700,
-        .lineCount = 210,
+        .vOffsetLines = 16,
+        .offsetBytes = 5,
+        .lineCount = 240,
         .linePeriod = 54000,
 };
 
 static Osd osd;
 
+static void switchTvSystem(const TvSystem *tvSys);
 
 
 static void prepareLine(uint16_t num)
 {
 
     if (levelLine != &levelLineBuffer[0][0]) levelLine = &levelLineBuffer[0][0];
-        else levelLine = &levelLineBuffer[1][0];
+    else levelLine = &levelLineBuffer[1][0];
 
     if (maskLine != &maskLineBuffer[0][0]) maskLine = &maskLineBuffer[0][0];
-        else maskLine = &maskLineBuffer[1][0];
+    else maskLine = &maskLineBuffer[1][0];
+
+    int i;
+    memset(maskLine, 0xff, sizeof(levelLineBuffer) / 2);
 
     uint32_t row = (VIDEO_BUFFER_HRES / 32) * num;
-    int i;
+
+    // warning: this may lead to unaligned memory access (ok on CM3 and CM4)
+    uint32_t *level = (uint32_t *)&((uint8_t *)(levelLine))[osd.tvSys->offsetBytes];
+    uint32_t *mask = (uint32_t *)&((uint8_t *)(maskLine))[osd.tvSys->offsetBytes];
+
     for (i = 0; i < (VIDEO_BUFFER_HRES / 32); i++) {
         uint32_t word = osd.fLevelBuffer[row + i];
-        levelLine[i] = word; /*__REV(word);*/
+        level[i] = word; /*__REV(word);*/
         word = osd.fMaskBuffer[row + i];
-        maskLine[i] = word^0xffffffff;/*__REV(word^0xffffffff);*/
+        mask[i] = word^0xffffffff;/*__REV(word^0xffffffff);*/
     }
+}
+
+static void prepareLinePeriphs(void)
+{
+    SPI_LEVEL_DMA_CH_TX->CMAR = (uint32_t)levelLine;
+    SPI_MASK_DMA_CH_TX->CMAR = (uint32_t)maskLine;
+    SPI_LEVEL_DMA_CH_TX->CNDTR = osd.hres / 8 + osd.tvSys->offsetBytes / 1;
+    SPI_MASK_DMA_CH_TX->CNDTR = osd.hres / 8 + osd.tvSys->offsetBytes / 1;
+    SPI_MASK->CR1 &= SPI_NSSInternalSoft_Reset;
+    // SPI_Cmd(SPI_MASK, ENABLE);
+    SPI_MASK_DMA_CH_TX->CCR |= DMA_CCR_EN;
+    SPI_LEVEL_DMA_CH_TX->CCR |= DMA_CCR_EN;
 }
 
 void CSyncInterrupt(void)
@@ -123,41 +150,18 @@ void CSyncInterrupt(void)
 
 void HSyncInterrupt(void)
 {
-    if ((!osd.initialized) || (osd.waitNextField) || (osd.lineInProgress)) return;
+    if (osd.state == STATE_NOT_INITIALIZED) return;
+    if ((osd.state == STATE_RUNNING) && (!osd.waitNextField) && (!osd.lineInProgress)) {
+        if ((osd.linecounter >= osd.tvSys->vOffsetLines) && ((osd.linecounter - osd.tvSys->vOffsetLines) < osd.vres)) {
+            osd.lineInProgress = 1;
+            SPI_MASK->CR1 |= SPI_CR1_SPE;
+            SPI_LEVEL->CR1 |= SPI_CR1_SPE;
 
-    if ((osd.linecounter >= osd.tvSys->vOffsetLines) && ((osd.linecounter - osd.tvSys->vOffsetLines) < osd.vres)) {
-        TIM_Cmd(TIM3, ENABLE);
-        osd.lineInProgress = 1;
-
-        while (SPI_GetTransmissionFIFOStatus(SPI_LEVEL) != SPI_TransmissionFIFOStatus_Empty);
-        while (SPI_I2S_GetFlagStatus(SPI_LEVEL, SPI_I2S_FLAG_BSY));
-        while (SPI_I2S_GetFlagStatus(SPI_MASK, SPI_I2S_FLAG_BSY));
-
-        SPI_LEVEL_DMA_CH_TX->CMAR = (uint32_t)levelLine;//(uint32_t)&osd.fLevelBuffer[lineIndex];
-        SPI_MASK_DMA_CH_TX->CMAR = (uint32_t)maskLine;//(uint32_t)&osd.fMaskBuffer[lineIndex];
-
-        DMA_SetCurrDataCounter(SPI_LEVEL_DMA_CH_TX, osd.hres / 16);
-        DMA_SetCurrDataCounter(SPI_MASK_DMA_CH_TX, osd.hres / 16);
-
-        SPI_NSSInternalSoftwareConfig(SPI_MASK, SPI_NSSInternalSoft_Reset);
-        SPI_Cmd(SPI_MASK, ENABLE);
-        DMA_Cmd(SPI_MASK_DMA_CH_TX, ENABLE);
-        DMA_Cmd(SPI_LEVEL_DMA_CH_TX, ENABLE);
+            if ((osd.linecounter >= osd.tvSys->vOffsetLines) && ((osd.linecounter - osd.tvSys->vOffsetLines) < osd.vres))
+                prepareLine(osd.linecounter - osd.tvSys->vOffsetLines);
+        }
     }
     osd.linecounter++;
-}
-
-void TIM3_IRQHandler(void)
-{
-    // trigger SPI transmission
-    SPI_Cmd(SPI_LEVEL, ENABLE);
-
-    TIM3->CNT = 0;
-    TIM_ClearFlag(TIM3, TIM_FLAG_Update);
-    TIM_Cmd(TIM3, DISABLE);
-
-    if ((osd.linecounter >= osd.tvSys->vOffsetLines) && ((osd.linecounter - osd.tvSys->vOffsetLines) < osd.vres))
-        prepareLine(osd.linecounter - osd.tvSys->vOffsetLines);
 }
 
 static inline void swapVideoBuffers(void)
@@ -173,15 +177,32 @@ static inline void swapVideoBuffers(void)
 
 void VSyncInterrupt(void)
 {
-    if (!osd.initialized) return;
-    osd.linecounter = 0;
-    osd.waitNextField = 0;
-    if (osd.swapRequest) {
-        swapVideoBuffers();
-        osd.swapRequest = 0;
-        if (osd.bufferSwappedCb) osd.bufferSwappedCb(osd.cbctx, osd.bLevelBuffer, osd.bMaskBuffer);
+    if (osd.state == STATE_NOT_INITIALIZED) {
+        return;
+    } else if (osd.state == STATE_SYSTEM_DETECTION) {
+        if (osd.waitNextField) {
+            osd.waitNextField = 0;
+        } else {
+            if (osd.linecounter > DETECTION_PAL_LINE_THRESHOLD) {
+                switchTvSystem(&tvPal);
+            } else {
+                switchTvSystem(&tvNtsc);
+            }
+            osd.state = STATE_RUNNING;
+        }
+        osd.linecounter = 0;
     }
-    prepareLine(0);
+
+    if (osd.state == STATE_RUNNING) {
+        osd.linecounter = 0;
+        osd.waitNextField = 0;
+        if (osd.swapRequest) {
+            swapVideoBuffers();
+            osd.swapRequest = 0;
+            if (osd.bufferSwappedCb) osd.bufferSwappedCb(osd.cbctx, osd.bLevelBuffer, osd.bMaskBuffer);
+        }
+        prepareLine(0);
+    }
 }
 
 void SPI_LEVEL_DMA_CH_IRQH(void)
@@ -202,6 +223,7 @@ void SPI_LEVEL_DMA_CH_IRQH(void)
     SPI_Cmd(SPI_LEVEL, DISABLE);
     SPI_Cmd(SPI_MASK, DISABLE);
 
+    prepareLinePeriphs();
     osd.lineInProgress = 0;
 }
 
@@ -221,9 +243,6 @@ static void switchTvSystem(const TvSystem *tvSys)
 
     RCC_ClocksTypeDef rccClocks;
     RCC_GetClocksFreq(&rccClocks);
-    uint32_t timerPeriod = 1000000000UL / (rccClocks.PCLK1_Frequency * 2);
-
-    TIM_SetAutoreload(TIM3, osd.tvSys->hOffsetNs / timerPeriod);
 
     enableIrqs();
 }
@@ -256,9 +275,7 @@ static uint32_t getSpiClk(SPI_TypeDef *spi)
 static void deviceStop(void *priv)
 {
     (void) priv;
-    NVIC_DisableIRQ(TIM3_IRQn);
-    TIM_Cmd(TIM3, DISABLE);
-    osd.initialized = 0;
+    osd.state = STATE_NOT_INITIALIZED;
     DMA_Cmd(SPI_MASK_DMA_CH_TX, DISABLE);
     DMA_Cmd(SPI_LEVEL_DMA_CH_TX, DISABLE);
     SPI_MASK_RCC_RESET;
@@ -268,7 +285,7 @@ static void deviceStop(void *priv)
 static int deviceStart(void *priv)
 {
     (void) priv;
-    osd.initialized = 0;
+    osd.state = STATE_NOT_INITIALIZED;
 
     SPI_LEVEL_RCC_ENABLE;
     SPI_MASK_RCC_ENABLE;
@@ -303,6 +320,7 @@ static int deviceStart(void *priv)
     SPI_Init(SPI_MASK, &spiMaskConf);
     SPI_I2S_DMACmd(SPI_MASK, SPI_I2S_DMAReq_Tx, ENABLE);
 
+
     // TODO should be this interrupt handled??
     SPI_I2S_ITConfig(SPI_MASK, SPI_I2S_IT_TXE, ENABLE);
     SPI_LastDMATransferCmd(SPI_MASK, SPI_LastDMATransfer_TxEvenRxEven);
@@ -314,8 +332,8 @@ static int deviceStart(void *priv)
             .DMA_BufferSize = 0,
             .DMA_PeripheralInc = DMA_PeripheralInc_Disable,
             .DMA_MemoryInc = DMA_MemoryInc_Enable,
-            .DMA_PeripheralDataSize = DMA_PeripheralDataSize_HalfWord,
-            .DMA_MemoryDataSize = DMA_MemoryDataSize_HalfWord,
+            .DMA_PeripheralDataSize = DMA_PeripheralDataSize_Byte,
+            .DMA_MemoryDataSize = DMA_MemoryDataSize_Byte,
             .DMA_Mode = DMA_Mode_Normal,
             .DMA_Priority = DMA_Priority_Medium,
             .DMA_M2M = DMA_M2M_Disable,
@@ -329,31 +347,14 @@ static int deviceStart(void *priv)
             .DMA_BufferSize = 0,
             .DMA_PeripheralInc = DMA_PeripheralInc_Disable,
             .DMA_MemoryInc = DMA_MemoryInc_Enable,
-            .DMA_PeripheralDataSize = DMA_PeripheralDataSize_HalfWord,
-            .DMA_MemoryDataSize = DMA_MemoryDataSize_HalfWord,
+            .DMA_PeripheralDataSize = DMA_PeripheralDataSize_Byte,
+            .DMA_MemoryDataSize = DMA_MemoryDataSize_Byte,
             .DMA_Mode = DMA_Mode_Normal,
             .DMA_Priority = DMA_Priority_Medium,
             .DMA_M2M = DMA_M2M_Disable,
     };
     DMA_Init(SPI_MASK_DMA_CH_TX, &dmaMaskConf);
     DMA_ITConfig(SPI_MASK_DMA_CH_TX, DMA_IT_TC, ENABLE);
-
-    TIM_TimeBaseInitTypeDef timInit = {
-            .TIM_Prescaler = 0,
-            .TIM_CounterMode = TIM_CounterMode_Up,
-            .TIM_Period = 100,
-            .TIM_ClockDivision = TIM_CKD_DIV1,
-    };
-
-    // initialize line draw trigger timer
-
-    TIM_TimeBaseInit(TIM3, &timInit);
-    TIM_SelectOnePulseMode(TIM3, TIM_OPMode_Single);
-    TIM_ARRPreloadConfig(TIM3, ENABLE);
-    TIM_ClearFlag(TIM3, TIM_FLAG_Update);
-    TIM_ITConfig(TIM3, TIM_IT_Update, ENABLE);
-    NVIC_EnableIRQ(TIM3_IRQn);
-    NVIC_SetPriority(TIM3_IRQn, 0);
 
     osd.pxClk = getSpiClk(SPI_LEVEL);
     osd.pxPeriod = (1000000000UL /  osd.pxClk) + 1;
@@ -367,11 +368,13 @@ static int deviceStart(void *priv)
     osd.waitNextField = 1;
 
     memset(levelBuffer, 0x00, sizeof(levelBuffer));
-    memset(maskBuffer, 0x00, sizeof(maskBuffer));
+    memset(maskBuffer, 0xFF, sizeof(maskBuffer));
 
     switchTvSystem(&tvPal);
 
     prepareLine(0);
+    prepareLinePeriphs();
+
 
     dprint("pxclk = %u", osd.pxClk);
     dprint("pxperiod = %u", osd.pxPeriod);
@@ -380,8 +383,7 @@ static int deviceStart(void *priv)
     dprint("SPICR2 = 0x%02x", SPI_LEVEL->CR2);
 
 
-
-    osd.initialized = 1;
+    osd.state = STATE_SYSTEM_DETECTION;
     return OSD_DEVICE_SUCCESS;
 }
 
