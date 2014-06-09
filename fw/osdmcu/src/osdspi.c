@@ -157,8 +157,9 @@ void HSyncInterrupt(void)
             SPI_MASK->CR1 |= SPI_CR1_SPE;
             SPI_LEVEL->CR1 |= SPI_CR1_SPE;
 
-            if ((osd.linecounter >= osd.tvSys->vOffsetLines) && ((osd.linecounter - osd.tvSys->vOffsetLines) < osd.vres))
-                prepareLine(osd.linecounter - osd.tvSys->vOffsetLines);
+            if (((osd.linecounter + 1) >= osd.tvSys->vOffsetLines) &&
+                    (((osd.linecounter + 1) - osd.tvSys->vOffsetLines) < osd.vres))
+                prepareLine(osd.linecounter + 1 - osd.tvSys->vOffsetLines);
         }
     }
     osd.linecounter++;
