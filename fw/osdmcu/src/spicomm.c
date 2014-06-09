@@ -171,8 +171,6 @@ static void rxByte(SpiComm *spiComm, uint8_t b)
                 spiComm->rxBuff = spiComm->rxRequestFrame;
                 spiComm->rxRequestFrameNo = b & FRAME_TYPE_SEQNO;
             }
-        } else if (b == FRAME_TYPE_SYNC) {
-            spiComm->rxRequestLastNo = 255;
         }
 
         spiComm->rxState = RX_STATE_WAIT_LENGTH;
@@ -199,6 +197,9 @@ static void rxByte(SpiComm *spiComm, uint8_t b)
                 if (spiComm->cfg->onDataReceived) {
                     spiComm->cfg->onDataReceived(spiComm->cfg->cbPrivData, spiComm->rxDataFrame, spiComm->rxDataFramLen);
                 }
+            }
+            if (spiComm->rxFrameType == FRAME_TYPE_SYNC) {
+                spiComm->rxRequestLastNo = 255;
             }
         }
         spiComm->rxState = RX_STATE_WAIT_START;
