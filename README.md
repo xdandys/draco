@@ -1,7 +1,7 @@
 Draco
 ==========
 
-Draco is opensource HW&SW UAV flight controller board. It was primary designed to my needs, but anybody can manufacture it, use it or modify it. If you would like to own one, you can contact me. 
+Draco is opensource HW&SW UAV flight controller board. It was primary designed for my needs, but anybody can manufacture it, use it or modify it. If you would like to own one, you can contact me. 
 
 It has two MCUs on it. The smaller one is used for OSD. The bigger one is running [TauLabs][1] flight code.
 
@@ -15,7 +15,7 @@ It has two MCUs on it. The smaller one is used for OSD. The bigger one is runnin
 * CAN bus transceiver
 * microSD slot via SDIO
 * 4x A/D inputs
-* slot for telemetry module (xbee or PirateBee - see below)
+* slot for telemetry module (XBee or PirateBee)
 * half-duplex inverted serial line for new FrSky S.PORT telemetry bus
 * GPS port with power, UART and I2C for external compass
 * 2x extension port with UART/I2C and GPIOs
