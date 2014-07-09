@@ -48,7 +48,7 @@ static void paint(void *widget, OsdPainter *painter, int x, int y)
 {
     WgAttitude *self = widget;
     osdPainterTranslate(painter, x, y);
-    osdPainterSetClipping(painter, -200, -50, +200, +50);
+    osdPainterSetClipping(painter, -200, -120, +200, +120);
     osdPainterSetPen(painter, &attitudePen);
 
     osdPainterTranslate(painter, 0, (int)(self->pitchAngle * self->pitchScale));

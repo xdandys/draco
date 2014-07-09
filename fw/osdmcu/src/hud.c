@@ -107,10 +107,10 @@ static Hud *hud = &hud_p;
 
 static void createPfdLayout(void)
 {
+    osdScreenAddWidget(&hud->screenPfd, &hud->wgAttitude.widget, 160, 120);
     osdScreenAddWidget(&hud->screenPfd, &hud->wgSpeed.widget, 60, 120);
     osdScreenAddWidget(&hud->screenPfd, &hud->wgAltitude.widget, 260, 120);
     osdScreenAddWidget(&hud->screenPfd, &hud->wgCompass.widget, 160, 20);
-    osdScreenAddWidget(&hud->screenPfd, &hud->wgAttitude.widget, 160, 120);
     osdScreenAddWidget(&hud->screenPfd, &hud->wgLosWp.widget, 220, 5);
     osdScreenAddWidget(&hud->screenPfd, &hud->wgNaviWp.widget, 220, 30);
     osdScreenAddWidget(&hud->screenPfd, &hud->wgVario.widget, 240, 185);
@@ -174,7 +174,7 @@ void hudInit(OsdDevice *osdDevice)
     wgVerticalGaugeInit(&hud->wgAltitude, 5, false, false, "m");
     wgVerticalGaugeInit(&hud->wgSpeed, 5, true, true, "km/h");
     wgCompassInit(&hud->wgCompass);
-    wgAttitudeInit(&hud->wgAttitude, 1.0);
+    wgAttitudeInit(&hud->wgAttitude, 1.33);
     wgWaypointInit(&hud->wgLosWp, "LOS", "m");
     wgWaypointInit(&hud->wgNaviWp, "NAV", "m");
     wgVarioInit(&hud->wgVario, 8, "m/s");
