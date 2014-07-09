@@ -106,8 +106,8 @@ static void processLed(Led *led, uint32_t ticksMs)
     if ((led->mode->duty == 0) || (led->mode->duty == 100))
         return;
 
-    uint32_t phase = ((uint32_t)led->mode->period * 100) / (ticksMs % led->mode->period);
-    if (phase > led->mode->duty)
+    uint32_t phase = ((ticksMs % led->mode->period) * 100) / ((uint32_t)led->mode->period);
+    if (phase <= led->mode->duty)
         gpioControl(led->gpio, 0);
     else
         gpioControl(led->gpio, 1);
