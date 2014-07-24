@@ -135,12 +135,14 @@ static void paint(void *widget, OsdPainter *painter, int x, int y)
     }
 
     // draw arrow with value
-    char strVal[8];
+    char strVal[12];
     if (fabsf(self->value) < 10) {
-        itoa((int)self->value, strVal, 10);
-        int i = (self->value < 0) ? 2 : 1;
-        strVal[i] = '.';
-        itoa((int)(self->value * 10.0f) % 10, &strVal[i + 1], 10);
+        if (self->value < 0)
+            lsprintf(strVal, "-%d.%d", (int)fabsf(self->value),
+                    (int)fabsf(self->value * 10));
+        else
+            lsprintf(strVal, "%d.%d", (int)fabsf(self->value),
+                    (int)fabsf(self->value * 10));
     } else {
         itoa((int)self->value, strVal, 10);
     }
