@@ -80,6 +80,7 @@ typedef struct {
     uint32_t *bMaskBuffer;
     uint8_t swapRequest;
     uint8_t waitNextField;
+    uint8_t tvsysForced;
     BufferSwappedCb bufferSwappedCb;
     void *cbctx;
 }Osd;
@@ -248,6 +249,27 @@ static void switchTvSystem(const TvSystem *tvSys)
     enableIrqs();
 }
 
+void osdSpiChangeTvSystem(enum OsdSpiTvSystem tvsys)
+{
+    switch (tvsys) {
+    case OSDSPI_TVSYSTEM_PAL:
+        if (osd.state != STATE_NOT_INITIALIZED)
+            osd.state = STATE_RUNNING;
+
+        switchTvSystem(&tvPal);
+        break;
+    case OSDSPI_TVSYSTEM_NTSC:
+        if (osd.state != STATE_NOT_INITIALIZED)
+            osd.state = STATE_RUNNING;
+
+        switchTvSystem(&tvNtsc);
+        break;
+    default:
+
+        break;
+    }
+}
+
 
 static uint32_t getSpiClk(SPI_TypeDef *spi)
 {
@@ -366,6 +388,7 @@ static int deviceStart(void *priv)
     osd.swapRequest = 0;
     osd.linecounter = 0;
     osd.lineInProgress = 0;
+    osd.tvsysForced = 0;
     osd.waitNextField = 1;
 
     memset(levelBuffer, 0x00, sizeof(levelBuffer));
@@ -384,7 +407,10 @@ static int deviceStart(void *priv)
     dprint("SPICR2 = 0x%02x", SPI_LEVEL->CR2);
 
 
-    osd.state = STATE_SYSTEM_DETECTION;
+    if (osd.tvsysForced)
+        osd.state = STATE_RUNNING;
+    else
+        osd.state = STATE_SYSTEM_DETECTION;
     return OSD_DEVICE_SUCCESS;
 }
 

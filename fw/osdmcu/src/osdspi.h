@@ -30,8 +30,13 @@
 
 #include "osddevice.h"
 
+enum OsdSpiTvSystem {
+    OSDSPI_TVSYSTEM_PAL,
+    OSDSPI_TVSYSTEM_NTSC,
+};
 
 void osdMain(void);
+void osdSpiChangeTvSystem(enum OsdSpiTvSystem tvsys);
 
 extern OsdDevice spiOsdDevice;
 

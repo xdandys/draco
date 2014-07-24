@@ -32,6 +32,7 @@
 #include "utils.h"
 #include "hud.h"
 #include "debug.h"
+#include "osdspi.h"
 #include <string.h>
 #include <board.h>
 
@@ -43,6 +44,7 @@ SpiComm spiComm;
 #define REQ_ID_POWER_LIMITS         10
 #define REQ_ID_FLIGHT_MODE          11
 #define REQ_ID_SET_UNITS            12
+#define REQ_ID_FORCE_TV_SYSTEM      20
 
 #define DATA_ID_LED_CONTROL         0
 #define DATA_ID_PFD                 1
@@ -269,6 +271,11 @@ static void onRequestReceived(void *priv, uint8_t *data, uint8_t len, uint8_t *a
 
     case REQ_ID_SET_UNITS:
         processRequestSetUnits(&data[1], len - 1);
+        *ansLen = 0;
+        break;
+
+    case REQ_ID_FORCE_TV_SYSTEM:
+        osdSpiChangeTvSystem((enum OsdSpiTvSystem)data[1]);
         *ansLen = 0;
         break;
 
