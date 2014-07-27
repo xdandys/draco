@@ -139,10 +139,10 @@ static void paint(void *widget, OsdPainter *painter, int x, int y)
     if (fabsf(self->value) < 10) {
         if (self->value < 0)
             lsprintf(strVal, "-%d.%d", (int)fabsf(self->value),
-                    (int)fabsf(self->value * 10));
+                    (int)fabsf(self->value * 10) % 10);
         else
             lsprintf(strVal, "%d.%d", (int)fabsf(self->value),
-                    (int)fabsf(self->value * 10));
+                    (int)fabsf(self->value * 10) % 10);
     } else {
         itoa((int)self->value, strVal, 10);
     }
