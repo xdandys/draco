@@ -93,7 +93,7 @@ void wgStopwatchStart(WgStopwatch *wg, bool reset)
     if (reset) {
         wg->seconds = 0;
     }
-    wg->milis = elapsedMs();
+    wg->milis = elapsedMs() - (wg->seconds * 1000);
     wg->running = true;
     osdWidgetRedraw(&wg->widget);
 }
