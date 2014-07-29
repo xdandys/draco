@@ -100,8 +100,9 @@ void wgTextSetIconBitmap(WgText *wg, const char *name)
 
 void wgTextBlink(WgText *wg, bool enable, uint16_t interval, uint16_t retries)
 {
-    wg->blinkEn = enable;
     wg->blinkInterval = interval;
     wg->blinkRetries = retries;
-    wg->blinkShow = true;
+    if (!wg->blinkEn)
+        wg->blinkShow = true;
+    wg->blinkEn = enable;
 }
