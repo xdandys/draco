@@ -1,4 +1,4 @@
-EESchema-DOCLIB  Version 2.0  Date: Ne 16. únor 2014, 21:13:38 CET
+EESchema-DOCLIB  Version 2.0  Date: St 24. září 2014, 19:30:25 CEST
 #
 $CMP 74AHC04
 D Hex Inverseur
@@ -96,6 +96,12 @@ $ENDCMP
 $CMP SN74AHC1G04
 D Single inverter
 K HCTMOS not inv
+$ENDCMP
+#
+$CMP SN74AHC1G86
+D Quad XOR 2 inputs
+K TTL XOR2
+F 74xx/74ls86.pdf
 $ENDCMP
 #
 $CMP STG719

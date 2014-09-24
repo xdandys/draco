@@ -1,4 +1,4 @@
-Cmp-Mod V01 Created by CvPcb (2013-may-18)-stable date = Čt 18. září 2014, 19:44:36 CEST
+Cmp-Mod V01 Created by CvPcb (2013-may-18)-stable date = St 24. září 2014, 19:42:47 CEST
 
 BeginCmp
 TimeStamp = /524DAFB5/524DB39B;
@@ -295,6 +295,13 @@ IdModule  = c_0603;
 EndCmp
 
 BeginCmp
+TimeStamp = /524DAFB5/54231658;
+Reference = C43;
+ValeurCmp = 100nF;
+IdModule  = c_0603;
+EndCmp
+
+BeginCmp
 TimeStamp = /524DA64E/525A69E6;
 Reference = C46;
 ValeurCmp = 100nF;
@@ -568,13 +575,6 @@ IdModule  = 1pin;
 EndCmp
 
 BeginCmp
-TimeStamp = /524DAFB5/52E51B81;
-Reference = Q1;
-ValeurCmp = NTA4153NT1G;
-IdModule  = sc75;
-EndCmp
-
-BeginCmp
 TimeStamp = /524DAFB5/52E529B2;
 Reference = Q2;
 ValeurCmp = NTA4153NT1G;
@@ -733,13 +733,6 @@ TimeStamp = /524DAFB5/524DB413;
 Reference = R17;
 ValeurCmp = 120R;
 IdModule  = r_0805;
-EndCmp
-
-BeginCmp
-TimeStamp = /524DAFB5/52501265;
-Reference = R18;
-ValeurCmp = 4k7;
-IdModule  = r_0603;
 EndCmp
 
 BeginCmp
@@ -1188,6 +1181,13 @@ TimeStamp = /524DA64E/530122B8;
 Reference = U10;
 ValeurCmp = MICRON N25Q032A13ESC40G;
 IdModule  = so-8;
+EndCmp
+
+BeginCmp
+TimeStamp = /524DAFB5/54230BC5;
+Reference = U11;
+ValeurCmp = SN74AHC1G86;
+IdModule  = sot323-5_2;
 EndCmp
 
 BeginCmp
