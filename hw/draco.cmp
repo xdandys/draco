@@ -1,4 +1,4 @@
-Cmp-Mod V01 Created by CvPcb (2013-may-18)-stable date = Út 18. únor 2014, 20:24:26 CET
+Cmp-Mod V01 Created by CvPcb (2013-may-18)-stable date = Čt 18. září 2014, 19:44:36 CEST
 
 BeginCmp
 TimeStamp = /524DAFB5/524DB39B;
@@ -376,6 +376,20 @@ TimeStamp = /524DA64E/524DA9A9;
 Reference = D8;
 ValeurCmp = CD0603-S01575;
 IdModule  = r_0603;
+EndCmp
+
+BeginCmp
+TimeStamp = /524DAFB5/541B28A9;
+Reference = D9;
+ValeurCmp = MBRS130T3G;
+IdModule  = do214aa_dandys;
+EndCmp
+
+BeginCmp
+TimeStamp = /524DAFB5/541B1B81;
+Reference = D10;
+ValeurCmp = 1SMB7.0AT3G;
+IdModule  = do214aa_dandys;
 EndCmp
 
 BeginCmp
@@ -1088,7 +1102,7 @@ EndCmp
 BeginCmp
 TimeStamp = /524DAFB5/52FFE4FA;
 Reference = R70;
-ValeurCmp = 220R;
+ValeurCmp = 390R;
 IdModule  = r_0603;
 EndCmp
 
@@ -1172,7 +1186,7 @@ EndCmp
 BeginCmp
 TimeStamp = /524DA64E/530122B8;
 Reference = U10;
-ValeurCmp = FLASH-SPI-SO8;
+ValeurCmp = MICRON N25Q032A13ESC40G;
 IdModule  = so-8;
 EndCmp
 
