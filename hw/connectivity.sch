@@ -38,7 +38,7 @@ $Descr A3 16535 11693
 encoding utf-8
 Sheet 2 3
 Title "DRACO - connectivity sheet"
-Date "24 sep 2014"
+Date "25 sep 2014"
 Rev "1.1"
 Comp "dandys"
 Comment1 ""
@@ -285,7 +285,7 @@ Wire Wire Line
 	1450 5700 1500 5700
 Wire Wire Line
 	1450 5800 1500 5800
-Text GLabel 2200 5500 1    60   BiDi ~ 0
+Text GLabel 2050 5450 2    60   BiDi ~ 0
 USBVB
 $Comp
 L R R16
@@ -3088,7 +3088,20 @@ F 3 "" H 2450 5200 60  0000 C CNN
 $EndComp
 Wire Wire Line
 	2450 5100 2450 5200
+$Comp
+L R R18
+U 1 1 54242744
+P 1750 5450
+F 0 "R18" V 1850 5550 40  0000 C CNN
+F 1 "39k" V 1750 5450 40  0000 C CNN
+F 2 "r_0603" V 1680 5450 30  0001 C CNN
+F 3 "~" H 1750 5450 30  0000 C CNN
+	1    1750 5450
+	0    1    1    0   
+$EndComp
 Wire Wire Line
-	2200 5500 2200 5600
-Connection ~ 2200 5600
+	2000 5450 2050 5450
+Wire Wire Line
+	1500 5450 1500 5600
+Connection ~ 1500 5600
 $EndSCHEMATC
