@@ -806,8 +806,6 @@ Wire Wire Line
 	9700 3400 9750 3400
 Text GLabel 9750 3300 2    60   Input ~ 0
 OSD_HSYNC
-Text GLabel 9750 3000 2    60   Input ~ 0
-OSD_CSYNC
 Wire Wire Line
 	9700 3300 9750 3300
 Text GLabel 6650 2800 0    60   Output ~ 0
@@ -1182,8 +1180,6 @@ Wire Wire Line
 	1800 6500 1800 6450
 Wire Wire Line
 	1800 6450 1850 6450
-Wire Wire Line
-	9700 3000 9750 3000
 Wire Wire Line
 	6650 2500 6700 2500
 Text GLabel 9750 3200 2    60   Output ~ 0
