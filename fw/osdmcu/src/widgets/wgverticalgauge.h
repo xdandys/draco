@@ -20,10 +20,9 @@
 
 /**
  * @file    wgverticalgauge.h
- * @brief   brief description here
+ * @brief   vertical gauge widget (for speed and altitude)
  *
  */
-
 
 #ifndef WGVERTICALGAUGE_H_
 #define WGVERTICALGAUGE_H_
@@ -34,7 +33,6 @@ extern "C" {
 
 #include "osdwidget.h"
 
-
 typedef struct {
     OsdWidget widget;
     char units[6];
@@ -43,7 +41,6 @@ typedef struct {
     bool leftSide;
     bool noNegative;
 } WgVerticalGauge;
-
 
 void wgVerticalGaugeInit(WgVerticalGauge *wg, float scale, bool leftSide, bool noNegative, const char *units);
 void wgVerticalGaugeSetValue(WgVerticalGauge *wg, float value);

@@ -1,11 +1,26 @@
 /*
- * hw.h
+    DRACO - Copyright (C) 2013-2014 Daniel Strnad
+
+    This file is part of DRACO project.
+
+    DRACO is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 3 of the License, or
+    (at your option) any later version.
+
+    DRACO is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+/**
+ * @file    board.h
+ * @brief   board specific defines goes here
  *
- *  Created on: 23.1.2012
- *      Author: strnad
  */
-
-
 #ifndef HW_H_
 #define HW_H_
 
@@ -18,7 +33,6 @@
 
 #define VIDEO_BUFFER_MEM __attribute__ ((section(".videobuffer")))
 #define DMA_MEM __attribute__ ((section(".dma")))
-
 
 #define SPI_LEVEL                   SPI2
 #define SPI_MASK                    SPI1
@@ -52,12 +66,6 @@
 #define SPI_COMMIO_IRQ_HANDLER      SPI3_IRQHandler
 #define SPI_COMMIO_DMA_IRQ_HANDLER  DMA2_Channel2_IRQHandler
 
-
-
-// #define DEBUG_USART1_PA9_PA10
-
-
-
 typedef enum GPIOAliasEnum {
 
     PinOsdPixelClockIn,
@@ -82,25 +90,18 @@ typedef enum GPIOAliasEnum {
     NoPin,
 } GpioAlias;
 
-
-
 /*
  * Communication with bootloader
  */
-#define BL_ACT_APPTOBL      0xAA550000
-#define BL_ACT_BLTOAPP      0x55AA0000
-// application request to stay in bootloader for unlimited time
-#define BL_ACT_APPREQ_STAY              0x00000001
-// application request to stay in bootloader for 5 sec
-#define BL_ACT_APPREQ_STAY_5S           0x00000002
-// bootloader was active
-#define BL_ACT_BL_ACTIVITY              0x00000100
-// bootloader was active and flashing was performed
-#define BL_ACT_BL_FLASH                 0x00000200
+#define BL_ACT_APPTOBL                  0xAA550000
+#define BL_ACT_BLTOAPP                  0x55AA0000
+#define BL_ACT_APPREQ_STAY              0x00000001  /**< application request to stay in bootloader for unlimited time */
+#define BL_ACT_APPREQ_STAY_5S           0x00000002  /**< application request to stay in bootloader for 5 sec */
+#define BL_ACT_BL_ACTIVITY              0x00000100  /**< bootloader was active */
+#define BL_ACT_BL_FLASH                 0x00000200  /**< bootloader was active and flashing was performed */
 
 void setBlAct(uint32_t blAct);
 uint32_t getBlAct(void);
-
 
 void boardInit(void);
 void jumpToBootLoader(uint16_t flags);
@@ -111,8 +112,6 @@ uint8_t gpioState(GpioAlias alias);
 void disableIrqs(void);
 void enableIrqs(void);
 
-
 void setupClocks(void);
-
 
 #endif /* HW_H_ */

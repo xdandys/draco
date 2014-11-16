@@ -20,10 +20,9 @@
 
 /**
  * @file    wgvario.h
- * @brief   brief description here
+ * @brief   vertical speed indicator widget
  *
  */
-
 
 #ifndef WGVARIO_H_
 #define WGVARIO_H_
@@ -40,7 +39,6 @@ typedef struct {
     float range;
     char units[6];
 } WgVario;
-
 
 void wgVarioInit(WgVario *wg, float range, const char *units);
 void wgVarioSetSpeed(WgVario *wg, float vspeed);

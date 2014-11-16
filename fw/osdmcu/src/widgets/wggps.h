@@ -20,10 +20,9 @@
 
 /**
  * @file    wggps.h
- * @brief   brief description here
+ * @brief   GPS widget
  *
  */
-
 
 #ifndef WGGPS_H_
 #define WGGPS_H_

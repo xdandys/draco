@@ -1,10 +1,28 @@
 /*
- * swtimer.c
- *
- *  Created on: 4.2.2012
- *      Author: dan
- */
+    DRACO - Copyright (C) 2013-2014 Daniel Strnad
 
+    This file is part of DRACO project.
+
+    DRACO is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 3 of the License, or
+    (at your option) any later version.
+
+    DRACO is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+*/
+
+/**
+ * @file    swtimer.c
+ * @brief   software timers
+ *
+ */
 
 #include "swtimer.h"
 #include "swtimer_config.h"
@@ -19,12 +37,10 @@ struct swTimer {
 
 static struct swTimer swTimers[SWTIMER_SLOTS_COUNT];
 
-
 static uint32_t timeDiff(uint32_t beginMs, uint32_t endMs)
 {
     return (beginMs <= endMs) ? (endMs - beginMs) : ((0xffffffff - beginMs) + endMs);
 }
-
 
 static uint8_t validIndex(int8_t index) {
     if ((index >= 0) && (index < SWTIMER_SLOTS_COUNT)) return 1; else return 0;
@@ -40,7 +56,6 @@ static int8_t getFreeSlot(void)
 
     return -1;
 }
-
 
 int8_t swTimerInstall(void(*timeoutRoutine)(void*), void *arg)
 {
@@ -62,7 +77,6 @@ void swTimerUnInstall(int8_t index)
     swTimers[index].state = SWTIMER_STATE_STOPPED;
     swTimers[index].config.timeoutRoutine = 0;
 }
-
 
 int8_t swTimerStart(int8_t index, uint32_t interval, uint8_t shotsNr)
 {
@@ -126,7 +140,6 @@ uint32_t swTimerTimeToTrig(int8_t index)
 
     return (swTimers[index].config.interval > tDiff) ? (swTimers[index].config.interval - tDiff) : 0;
 }
-
 
 int8_t swTimerState(int8_t index)
 {

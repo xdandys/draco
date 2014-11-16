@@ -20,10 +20,9 @@
 
 /**
  * @file    wgStopwatch.c
- * @brief   brief description here
+ * @brief   stopwatch (flighttime) widget
  *
  */
-
 
 #include "wgstopwatch.h"
 #include "osdpainter.h"

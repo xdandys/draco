@@ -1,10 +1,26 @@
 /*
- * debug.c
- *
- *  Created on: 23.1.2012
- *      Author: strnad
- */
+    DRACO - Copyright (C) 2013-2014 Daniel Strnad
 
+    This file is part of DRACO project.
+
+    DRACO is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 3 of the License, or
+    (at your option) any later version.
+
+    DRACO is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+/**
+ * @file    debug.c
+ * @brief   debugging routines
+ *
+ */
 
 #include <stm32f30x.h>
 #include <stm32f30x_rcc.h>
@@ -18,10 +34,8 @@
 #include <stdio.h>
 #include "stdlib.h"
 
-
 #define DEBUG_USE_SEMIHOSTING
 #define DEBUG_BAUDRATE  115200
-
 
 #ifdef DEBUG_USART2_PA2_PA3
     #define DEBUG_USART2
@@ -32,7 +46,6 @@
     #define USART_DBG USART1
     #define USART_FREQ  (SYSCLK_FREQ)
 #endif
-
 
 void DebugInit(void)
 {
@@ -71,7 +84,8 @@ int shwrites(const char *str)
     args[2] = size;
 
     // return -1;
-    if ((CoreDebug->DHCSR & 1) == 0) return -1;
+    if ((CoreDebug->DHCSR & 1) == 0)
+        return -1;
 
     asm volatile("mov r0, #5\n"
         "mov r1, %0\n"
@@ -137,22 +151,6 @@ void _dhexprint(const char *file, const char *function, const uint8_t *dataPoint
         if(pos>=len) break;
     }
 }
-
-
-void _dbarprint(const char *file, const char *function, uint32_t value, uint32_t rangeMin, uint32_t rangeMax, uint8_t size)
-{
-    char bar[size + 3];
-    bar[0] = '|';
-    bar[size+1] = '|';
-    bar[size+2] = 0x00;
-    uint16_t i;
-    for (i=1;i<(size+1); i++) bar[i] = ' ';
-    uint8_t pos = (value - rangeMin) / ((rangeMax - rangeMin) / size);
-    if (pos <= size)
-        bar[pos] = '*';
-    DebugPrintf(DEBUG_STR_FORMAT "%u%s%u  %u\r\n",getElapsedMs() / 1000, getElapsedMs() % 1000, file, function, rangeMin, bar, rangeMax, value);
-}
-
 
 static void printchar(char **str, int c)
 {
@@ -323,7 +321,4 @@ int sprintf(char *out, const char *format, ...)
         va_start( args, format );
         return print( &out, format, args );
 }
-
-
-
 

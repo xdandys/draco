@@ -20,7 +20,7 @@
 
 /**
  * @file    wgwaypoint.c
- * @brief   brief description here
+ * @brief   waypoint direction and distance widget
  *
  */
 

@@ -20,7 +20,7 @@
 
 /**
  * @file    wgmode.c
- * @brief   brief description here
+ * @brief   flight mode widget
  *
  */
 
@@ -30,9 +30,7 @@
 #include <math.h>
 #include <string.h>
 
-
 static const WidgetConfig cfg;
-
 
 static void paint(void *widget, OsdPainter *painter, int x, int y)
 {
@@ -47,7 +45,6 @@ static void process(void *widget)
     if (wgTextProcees(&self->wgtext))
         osdWidgetRedraw(&self->widget);
 }
-
 
 void wgModeInit(WgMode *wg)
 {
@@ -67,12 +64,10 @@ void wgModeSetMode(WgMode *wg, const char *mode)
     }
 }
 
-
 static const WidgetConfig cfg = {
     .ops = {
         .paint = paint,
         .process = process,
     },
 };
-
 

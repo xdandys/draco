@@ -20,7 +20,7 @@
 
 /**
  * @file    vectors.c
- * @brief   brief description here
+ * @brief   MCU exception vectors
  *
  */
 #include <stm32f30x.h>
@@ -107,8 +107,6 @@ void __attribute__ ((weak, alias ("Default_Handler"))) USB_HP_IRQHandler(void);
 void __attribute__ ((weak, alias ("Default_Handler"))) USB_LP_IRQHandler(void);
 void __attribute__ ((weak, alias ("Default_Handler"))) USBWakeUp_RMP_IRQHandler(void);
 void __attribute__ ((weak, alias ("Default_Handler"))) FPU_IRQHandler(void);
-
-
 
 typedef void( *const intfunc )( void );
 __attribute__ ((section(".vectors"), used))
@@ -222,17 +220,14 @@ void (* const g_pfnVectors[])(void) = {
     0, 0, 0, 0, 0, 0
 };
 
-
 __attribute__ ((section(".app_size"), used))
 const unsigned long __APP_SIZE = 0x00000000;            // will be filled by stampelf
 
 __attribute__ ((section(".app_time_stamp"), used))
 const unsigned long __APP_TIME_STAMP = 0x00000000;      // will be filled by stampelf
 
-
 __attribute__ ((section(".app_crc"), used))
 const unsigned long __APP_CRC = 0x00000000;              // will be filled by stampelf
-
 
 void Default_Handler(void) {
     gpioControl(PinLedRed, 1);

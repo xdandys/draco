@@ -20,14 +20,14 @@
 
 /**
  * @file    osdpainter.h
- * @brief   brief description here
+ * @brief   painting routines
  *
  */
-
 
 #ifndef OSDPAINTER_H_
 #define OSDPAINTER_H_
 #include "osddevice.h"
+#include <stdbool.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -60,7 +60,7 @@ typedef struct {
 
 typedef struct {
     uint8_t style;
-    uint8_t width;  // <-- TODO, width ignored currently
+    uint8_t width;  /**< TODO, width ignored currently */
     uint8_t color;
     uint8_t outline;
 }PainterPen;
@@ -84,7 +84,6 @@ typedef struct {
     const uint8_t *outlineBuff;
 }OsdBitmap;
 
-
 typedef struct {
     OsdDevice *device;
     int ready;
@@ -107,12 +106,11 @@ typedef struct {
 
 }OsdPainter;
 
-
 void osdPainterInit(OsdPainter *painter);
 void osdPainterSetDevice(OsdPainter *painter, OsdDevice *device);
 void osdPainterReset(OsdPainter *painter);
 void osdPainterFlush(OsdPainter *painter);
-int osdPainterIsReady(OsdPainter *painter);
+static inline bool osdPainterIsReady(OsdPainter *painter) {return painter->ready != 0;}
 
 void osdPainterSetBrush(OsdPainter *painter, const PainterBrush *brush);
 void osdPainterSetPen(OsdPainter *painter, const PainterPen *pen);
@@ -151,6 +149,5 @@ void osdPainterDrawTextAligned(OsdPainter *painter, int x, int y, int width, int
 #endif
 
 #endif /* OSDPAINTER_H_ */
-
 
 /** @} */

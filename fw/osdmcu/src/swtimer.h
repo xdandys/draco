@@ -1,12 +1,27 @@
 /*
- * swtimer.h
+    DRACO - Copyright (C) 2013-2014 Daniel Strnad
+
+    This file is part of DRACO project.
+
+    DRACO is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 3 of the License, or
+    (at your option) any later version.
+
+    DRACO is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+*/
+
+/**
+ * @file    swtimer.h
+ * @brief   software timers
  *
- *  Created on: 4.2.2012
- *      Author: strnad@home
- *
- *   SW timers
- *   only external fuction required is getElapsedMs()
- *   processSwTimer() routine must be called as frequently as possible
  */
 
 #ifndef SWTIMER_H_
@@ -15,10 +30,7 @@
 extern "C" {
 #endif
 
-
-
 #include <stdint.h>
-
 
 #define SWTIMER_STATE_STOPPED       0
 #define SWTIMER_STATE_RUNNING       1
@@ -43,7 +55,6 @@ struct swTimerConfig
     void *arg;
 };
 
-
 /**
  * Install timer
  * @param [in] timeoutRoutine timeout routine
@@ -53,12 +64,10 @@ struct swTimerConfig
 
 int8_t swTimerInstall(void(*timeoutRoutine)(void*), void *arg);
 
-
 /**
  * Un-Install timer
  * @param [in] index number of timer (returned by swTimerInstall())
  */
-
 
 void swTimerUnInstall(int8_t index);
 
@@ -79,14 +88,12 @@ int8_t swTimerStart(int8_t index, uint32_t interval, uint8_t shotsNr);
  */
 uint32_t swTimerTimeToTrig(int8_t index);
 
-
 /**
  * Get timer state
  * @param [in] index number of timer (returned by swTimerInstall())
  * @return either SWTIMER_STATE_STOPPED or SWTIMER_STATE_RUNNING
  */
 int8_t swTimerState(int8_t index);
-
 
 /**
  * Stop timer
@@ -102,7 +109,6 @@ int8_t swTimerStop(int8_t index);
  */
 
 void swTimerProcess(void);
-
 
 #ifdef __cplusplus
 }

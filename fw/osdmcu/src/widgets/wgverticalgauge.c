@@ -20,7 +20,7 @@
 
 /**
  * @file    wgverticalgauge.c
- * @brief   brief description here
+ * @brief   vertical gauge widget (for speed and altitude)
  *
  */
 
@@ -36,7 +36,6 @@
 #define SHORT_NOTCH_LEN             4
 #define LONG_NOTCH_LEN              6
 #define NEEDLE_LENGTH               15
-
 
 static const WidgetConfig cfg;
 static const PainterPen gaugePen = {
@@ -112,7 +111,6 @@ static void paint(void *widget, OsdPainter *painter, int x, int y)
         }
         if ((-ygamut + offset) < (-GAUGE_HEIGHT / 2)) break;
 
-
         osdPainterDrawLine(painter, 0, -ygamut + offset, notchLen, -ygamut + offset);
 
         // draw notch caption (upper)
@@ -183,7 +181,6 @@ static void paint(void *widget, OsdPainter *painter, int x, int y)
     osdPainterSetFont(painter, osdFontByName(captionFont));
     osdPainterDrawText(painter, textUnitX, 12, self->units);
 }
-
 
 void wgVerticalGaugeInit(WgVerticalGauge *wg, float scale, bool leftSide, bool noNegative, const char *units)
 {

@@ -20,7 +20,7 @@
 
 /**
  * @file    wgsplash.c
- * @brief   brief description here
+ * @brief   splash screen widget
  *
  */
 
@@ -51,9 +51,6 @@ static void paint(void *widget, OsdPainter *painter, int x, int y)
     lsprintf(buff, "OSD FW version: %u.%02u\n powered by TauLabs", self->major, self->minor);
     osdPainterDrawText(painter, 30, 7 + osdBitmapByName("dracologo")->height, buff);
 }
-
-
-
 
 static const WidgetConfig cfg = {
     .ops = {

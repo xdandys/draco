@@ -20,10 +20,9 @@
 
 /**
  * @file    osddevice.h
- * @brief   brief description here
+ * @brief   OSD painting abstract device
  *
  */
-
 
 #ifndef OSDDEVICE_H_
 #define OSDDEVICE_H_
@@ -33,7 +32,6 @@ typedef void (*BufferSwappedCb)(void *ctx, uint32_t *levelBuffer, uint32_t *mask
 
 #define OSD_DEVICE_SUCCESS          0
 #define OSD_DEVICE_FAILURE          -1
-
 
 typedef struct {
     void *priv;
@@ -48,7 +46,6 @@ typedef struct {
         int (*registerBufferSwappedCb)(void *priv, BufferSwappedCb cb, void *ctx);
     } ops;
 }OsdDevice;
-
 
 inline static int osdDeviceStart(OsdDevice *dev)
 {

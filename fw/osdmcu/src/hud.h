@@ -20,10 +20,9 @@
 
 /**
  * @file    hud.h
- * @brief   brief description here
+ * @brief   manages all HUD widgets
  *
  */
-
 
 #ifndef HUD_H_
 #define HUD_H_

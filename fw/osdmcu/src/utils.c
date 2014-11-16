@@ -1,10 +1,28 @@
 /*
- * utils.c
- *
- *  Created on: 15.12.2011
- *      Author: strnad
- */
+    DRACO - Copyright (C) 2013-2014 Daniel Strnad
 
+    This file is part of DRACO project.
+
+    DRACO is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 3 of the License, or
+    (at your option) any later version.
+
+    DRACO is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+*/
+
+/**
+ * @file    utils.c
+ * @brief   miscellaneous routines
+ *
+ */
 
 #include "utils.h"
 #include <stdarg.h>
@@ -111,8 +129,6 @@ char *ultoa(unsigned long val, char *buf, int radix)
     return buf;
 }
 
-
-
 // small string compare
 uint8_t cmstr(char* s1, char* s2, uint8_t n)
 {
@@ -162,7 +178,6 @@ uint32_t atou(char *s)
     return 0;
 }
 
-
 static void printchar(char **str, int c)
 {
     if (str) {
@@ -203,7 +218,6 @@ static int prints(char **out, const char *string, int width, int pad)
 
     return pc;
 }
-
 
 static int printi(char **out, int i, int b, int sg, int width, int pad, int letbase)
 {
@@ -246,7 +260,6 @@ static int printi(char **out, int i, int b, int sg, int width, int pad, int letb
 
     return pc + prints (out, s, width, pad);
 }
-
 
 static int printfloat(char **out, float f, int width, uint8_t e)
 {
@@ -304,7 +317,6 @@ static int printfloat(char **out, float f, int width, uint8_t e)
 
     pc += prints(out, s, 0, 0);
 
-
     /* right-point side */
     s = print_buf + PRINT_BUF_LEN - 1;
     *s = '\0';
@@ -331,7 +343,6 @@ static int printfloat(char **out, float f, int width, uint8_t e)
         pc+=2;
         pc+=printi(out, exp, 10, 0, 3, PAD_ZERO, 'a');
     }
-
 
     return pc;
 }

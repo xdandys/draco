@@ -20,7 +20,7 @@
 
 /**
  * @file    wgattitude.h
- * @brief   brief description here
+ * @brief   attitude indicator
  *
  */
 

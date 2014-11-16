@@ -1,14 +1,26 @@
 /*
- * hw.c
+    DRACO - Copyright (C) 2013-2014 Daniel Strnad
+
+    This file is part of DRACO project.
+
+    DRACO is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 3 of the License, or
+    (at your option) any later version.
+
+    DRACO is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+/**
+ * @file    board.c
+ * @brief   board specific defines goes here
  *
- *  Created on: 25.1.2012
- *      Author: strnad
  */
-
-/*
- * Board and low-level system stuff comes here
- */
-
 
 #include <stm32f30x_rcc.h>
 #include <stm32f30x_gpio.h>
@@ -19,16 +31,12 @@
 #include <stm32f30x_tim.h>
 #include <stm32f30x_adc.h>
 #include <stm32f30x_usart.h>
-
-
 #include <core_cm4.h>
+
 #include "board.h"
 #include "debug.h"
 #include "delay.h"
 #include "version.h"
-
-
-
 
 typedef enum GpioLogicEnum
 {
@@ -45,23 +53,17 @@ typedef enum GpioExtiConfigEnum
 } GpioExtiConfig;
 
 typedef struct GPIOInitTableItemStruct {
-    // pointer to port register
-    GPIO_TypeDef* port;
-    // GPIO alternate fucntion assignment (0..15)
-    uint8_t altFunc;
-    // pin number (0..15)
-    uint8_t pinNr;
-    // initialization struct
-    const GPIO_InitTypeDef initStruct;
-    // when configured as output
-    uint8_t defaultOutputState;
-    // select between invereted and noninverted logic
-    GpioLogic logic;
-    // exti line configuration
-    GpioExtiConfig exti;
+    GPIO_TypeDef* port;                 /**< pointer to port register */
+    uint8_t altFunc;                    /**< GPIO alternate fucntion assignment (0..15) */
+    uint8_t pinNr;                      /**< pin number (0..15) */
+    const GPIO_InitTypeDef initStruct;  /**< initialization struct */
+    uint8_t defaultOutputState;         /**< when configured as output */
+    GpioLogic logic;                    /**< select between invereted and noninverted logic */
+    GpioExtiConfig exti;                /** exti line configuration */
 
 } GpioItem;
 
+/** nested irq enable/disable counter */
 static volatile uint32_t irqDisCnt = 0;
 
 static const GpioItem GPIOInitTable[] = {
@@ -375,22 +377,19 @@ static const GpioItem GPIOInitTable[] = {
         {0},
 };
 
-
-
-
-
+/** get message from bootloader */
 uint32_t getBlAct(void)
 {
     return *(volatile unsigned long*)0x20000000;
 }
 
+/** set message for bootloader */
 void setBlAct(uint32_t blAct)
 {
     *(volatile unsigned long*)0x20000000 = blAct;
 }
 
-
-
+/** enable clocks for all used peripherals */
 static void initPeriphClocks(void)
 {
 
@@ -411,9 +410,6 @@ static void initPeriphClocks(void)
 
 static void initInterrupts(void)
 {
-    // disable all interrupts and
-    // clear all pending bits
-
     int i;
     for (i = 0; i < 8; i++) {
         NVIC->ICER[i] = 0xffffffff;
@@ -446,8 +442,6 @@ static void initGPIOs(void)
             gpio->port->AFR[1] |= gpio->altFunc << (4 * (gpio->pinNr - 8));
         }
 
-
-        // if (i != PinOsdHSync) continue;
         switch(gpio->exti) {
         case GpioExtiFalling:
             EXTI->FTSR |=  1 << (uint32_t)gpio->pinNr;
@@ -471,7 +465,6 @@ static void initGPIOs(void)
             EXTI->IMR  &=  ~(1 << (uint32_t)gpio->pinNr);
             break;
         }
-
 
         if (gpio->exti != GpioExtiNone) {
             EXTI->PR |=  1 << (uint32_t)gpio->pinNr;
@@ -519,7 +512,6 @@ void boardInit(void)
     initInterrupts();
 }
 
-
 void gpioControl(GpioAlias alias, uint8_t on)
 {
     on = (GPIOInitTable[alias].logic == NonInverted) ? on : !on;
@@ -533,10 +525,7 @@ uint8_t gpioState(GpioAlias alias)
     return bit;
 }
 
-
-
-
-/* Setup system PLL, clocks and flash prefetching*/
+/** Setup system PLL, clocks and flash prefetching */
 void setupClocks(void)
 {
     /* FPU settings ------------------------------------------------------------*/
@@ -638,11 +627,13 @@ void setupClocks(void)
 
 }
 
-
 extern void CSyncInterrupt(void);
 extern void HSyncInterrupt(void);
 extern void VSyncInterrupt(void);
 
+/** EXTI interrupt handler. It will serve GPIO interrutps,
+ * pass them to video driver and clear interrupt flags
+ */
 void EXTI15_10_IRQHandler(void)
 {
     if (EXTI->PR & (1 << 14)) {
@@ -661,14 +652,18 @@ void EXTI15_10_IRQHandler(void)
     }
 }
 
-
-
+/** Disable all interrupts
+ * nesting calls are allowed
+ */
 void disableIrqs(void)
 {
     __disable_irq();
     irqDisCnt++;
 }
 
+/**Eanble all interrupts
+ * nesting calls are allowed
+ */
 void enableIrqs(void)
 {
 
@@ -680,9 +675,7 @@ void enableIrqs(void)
     }
 }
 
-
-
-
+/** Jump to bootloader code */
 void jumpToBootLoader(uint16_t blFlags)
 {
     __disable_irq();
@@ -695,10 +688,7 @@ void jumpToBootLoader(uint16_t blFlags)
             RCC_APB1Periph_USB,
             DISABLE);
 
-
-    ADC_DeInit(ADC1);
     USART_DeInit(USART1);
-
 
     SysTick->CTRL &= ~SysTick_CTRL_ENABLE_Msk;
 

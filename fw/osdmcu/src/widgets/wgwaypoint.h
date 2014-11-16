@@ -20,10 +20,9 @@
 
 /**
  * @file    wgwaypoint.h
- * @brief   brief description here
+ * @brief   waypoint direction and distance widget
  *
  */
-
 
 #ifndef WGWAYPOINT_H_
 #define WGWAYPOINT_H_
@@ -41,7 +40,6 @@ typedef struct {
     char name[6];
     char units[4];
 } WgWaypoint;
-
 
 void wgWaypointInit(WgWaypoint *wg, const char *name, const char *units);
 void wgWaypointSet(WgWaypoint *wg, float heading, float distance);

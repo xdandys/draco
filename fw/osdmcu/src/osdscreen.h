@@ -20,10 +20,9 @@
 
 /**
  * @file    osdscreen.h
- * @brief   brief description here
+ * @brief   screens are containers for OSD widgets
  *
  */
-
 
 #ifndef OSDSCREEN_H_
 #define OSDSCREEN_H_
@@ -32,7 +31,6 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-
 
 struct WidgetSlot;
 typedef struct WidgetSlot {
@@ -50,18 +48,15 @@ typedef struct {
     int state;
 } OsdScreen;
 
-
 void osdScreenInit(OsdScreen *screen, OsdPainter *painter);
 void osdScreenAddWidget(OsdScreen *screen, OsdWidget *widget, int x, int y);
 void osdScreenMoveWidget(OsdScreen *screen, OsdWidget *widget, int x, int y);
 void osdScreenRemoveWidget(OsdScreen *screen, OsdWidget *widget);
 void osdScreenProcess(OsdScreen *screen, bool forceRedraw);
 
-
 #ifdef __cplusplus
 }
 #endif
-
 
 #endif /* OSDSCREEN_H_ */
 

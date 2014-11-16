@@ -20,10 +20,9 @@
 
 /**
  * @file    wgsplash.h
- * @brief   brief description here
+ * @brief   splash screen widget
  *
  */
-
 
 #ifndef WGSPLASH_H_
 #define WGSPLASH_H_
@@ -39,7 +38,6 @@ typedef struct {
 } WgSplash;
 
 void wgSplashInit(WgSplash *wg, uint8_t major, uint8_t minor);
-
 
 #ifdef __cplusplus
 }

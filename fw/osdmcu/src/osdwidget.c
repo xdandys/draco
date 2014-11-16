@@ -20,7 +20,7 @@
 
 /**
  * @file    osdwidget.c
- * @brief   brief description here
+ * @brief   OSD abstract widget
  *
  */
 

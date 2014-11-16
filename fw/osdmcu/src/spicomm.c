@@ -20,7 +20,7 @@
 
 /**
  * @file    spicomm.c
- * @brief   brief description here
+ * @brief   SPI communication logic
  *
  */
 
@@ -102,8 +102,6 @@ static int rxFifoGet(SpiComm *spiComm, uint8_t *b)
     return 0;
 }
 
-
-
 static void onByteReceived(void *priv, uint8_t b)
 {
     SpiComm *spiComm = (SpiComm*)priv;
@@ -117,7 +115,6 @@ static void onTxDone(void *priv)
     spiComm->txFlags &= ~TX_FLAG_IN_PROGRESS;
     setIrq(spiComm, 0);
 }
-
 
 static void rxByte(SpiComm *spiComm, uint8_t b)
 {
@@ -186,7 +183,6 @@ static void rxByte(SpiComm *spiComm, uint8_t b)
 
         break;
 
-
     case RX_STATE_WAIT_CRC:
         if (b == spiComm->rxCrc) {
             if (spiComm->rxBuff == spiComm->rxRequestFrame) {
@@ -225,7 +221,6 @@ static void tx(SpiComm *spiComm, uint8_t *data, uint16_t len)
     spiComm->cfg->io->tx(data, len);
     setIrq(spiComm, 1);
 }
-
 
 static void txGenericFrame(SpiComm *spiComm, const uint8_t *payload, uint8_t len, uint8_t frameType)
 {
@@ -279,7 +274,6 @@ static void txData(SpiComm *spiComm, const uint8_t *data, uint8_t len)
     txGenericFrame(spiComm, data, len, frameType);
 }
 
-
 static void setDefaults(SpiComm *spiComm)
 {
     spiComm->txFlags = 0;
@@ -292,7 +286,6 @@ static void setDefaults(SpiComm *spiComm)
     spiComm->rxFifoR = 0;
     spiComm->rxFifoW = 0;
 }
-
 
 void spiCommProcess(SpiComm *spiComm)
 {
@@ -329,8 +322,7 @@ void spiCommProcess(SpiComm *spiComm)
 SpiCommResult spiCommSendRequest(SpiComm *spiComm, uint8_t *data, uint8_t dataLen)
 {
     // TODO we don't need sending requests on OSD side now
-    // can be implemented in the future when needed
-
+    // can be easily implemented in the future when needed
 
     return SPICOMM_ERROR;
 }

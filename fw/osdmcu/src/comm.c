@@ -20,7 +20,7 @@
 
 /**
  * @file    comm.c
- * @brief   brief description here
+ * @brief   process OSD data received from Draco main MCU
  *
  */
 
@@ -35,7 +35,6 @@
 #include "osdspi.h"
 #include <string.h>
 #include <board.h>
-
 
 SpiComm spiComm;
 
@@ -55,43 +54,42 @@ SpiComm spiComm;
 #define DATA_ID_STOPWATCH           6
 
 struct DataPfd {
-    int16_t speed;      // 10^-2 m/s
-    int16_t vspeed;     // 10^-2 m/s
-    int32_t altitude;   // 10^-2 m
-    int16_t roll;       // 10^-1 degrees
-    int16_t pitch;      // 10^-1 degrees
-    int16_t heading;    // 10^-1 degrees
+    int16_t speed;      /**< 10^-2 m/s */
+    int16_t vspeed;     /**< 10^-2 m/s */
+    int32_t altitude;   /**< 10^-2 m */
+    int16_t roll;       /**< 10^-1 degrees */
+    int16_t pitch;      /**< 10^-1 degrees */
+    int16_t heading;    /**< 10^-1 degrees */
 } __attribute__((packed));
 
 struct DataWp {
     uint8_t show;
-    uint32_t distance;      // 10^-2 m
-    int16_t heading;        // 10^-1 degrees
+    uint32_t distance;      /**< 10^-2 m */
+    int16_t heading;        /**< 10^-1 degrees */
 } __attribute__((packed));
 
 struct DataGnss {
     uint8_t fix;
     uint8_t satCount;
-    uint16_t pdop;          // 10^-2
-    int32_t lat;            // 10^-7 degrees
-    int32_t lon;            // 10^-7 degrees
+    uint16_t pdop;          /**< 10^-2 */
+    int32_t lat;            /**< 10^-7 degrees */
+    int32_t lon;            /**< 10^-7 degrees */
 } __attribute__((packed));
 
-
 struct DataPower {
-    uint16_t voltage;       // 10^-2 V
-    uint16_t current;       // 10^-2 A
-    uint16_t mahs;          // 10^-3 A
+    uint16_t voltage;       /**< 10^-2 V */
+    uint16_t current;       /**< 10^-2 A */
+    uint16_t mahs;          /**< 10^-3 A */
 } __attribute__ ((packed));
 
 struct DataPowerLimits {
-    uint16_t minVoltage;    // 10^-2 V
-    uint16_t maxmahs;       // 10^-3 A
+    uint16_t minVoltage;    /**< 10^-2 V */
+    uint16_t maxmahs;       /**< 10^-3 A */
 } __attribute__ ((packed));
 
 struct DataStopwatch {
-    uint8_t running;
-    uint16_t maxSeconds;
+    uint8_t running;        /**< running flag */
+    uint16_t maxSeconds;    /**< time limit in seconds */
 } __attribute__((packed));
 
 static void onRequestReceived(void *priv, uint8_t *data, uint8_t len, uint8_t *ansData, uint8_t *ansLen);
@@ -104,7 +102,6 @@ static const SpiCommConfig spiCommConfig = {
         .onRequestReceived = onRequestReceived,
 };
 
-
 //------------------------------------------------------------------------
 //
 //         data frame processing
@@ -113,7 +110,6 @@ static const SpiCommConfig spiCommConfig = {
 //
 //------------------------------------------------------------------------
 
-
 static void processDataLed(const uint8_t *data, uint8_t len)
 {
     int i;
@@ -121,13 +117,11 @@ static void processDataLed(const uint8_t *data, uint8_t len)
         ledControl(data[i * 2], data[i * 2 + 1]);
 }
 
-
 static void processDataPfd(const uint8_t *data, uint8_t len)
 {
     struct DataPfd dataPfd;
     if (len != sizeof(struct DataPfd))
         return;
-
 
     memcpy(&dataPfd, data, sizeof(struct DataPfd));
     hudSetPfdData(dataPfd.speed / 100.0f,
@@ -160,7 +154,6 @@ static void processDataWpNavi(const uint8_t *data, uint8_t len)
     hudSetWaypoint(HUD_WAYPOINT_NAV, dataWp.show != 0, dataWp.distance / 100.0f, dataWp.heading / 10.0f);
 }
 
-
 static void processDataGnss(const uint8_t *data, uint8_t len)
 {
     struct DataGnss dataGnss;
@@ -184,7 +177,6 @@ static void processDataPower(const uint8_t *data, uint8_t len)
         hudSetBatteryCurrent(dataPower.current / 100.0f, dataPower.mahs / 1000.0f);
 }
 
-
 static void processDataStopwatch(const uint8_t *data, uint8_t len)
 {
     struct DataStopwatch stopwatch;
@@ -196,7 +188,6 @@ static void processDataStopwatch(const uint8_t *data, uint8_t len)
 
     hudControlStopwatch(stopwatch.running != 0, stopwatch.maxSeconds);
 }
-
 
 static void processRequestPowerLimits(const uint8_t *data, uint8_t len)
 {
@@ -234,7 +225,6 @@ static void processRequestSetUnits(const uint8_t *data, uint8_t len)
 //------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------
-
 
 static void onRequestReceived(void *priv, uint8_t *data, uint8_t len, uint8_t *ansData, uint8_t *ansLen)
 {
@@ -300,7 +290,6 @@ static void onDataReceived(void *priv, uint8_t *data, uint8_t len)
         break;
     }
 }
-
 
 //------------------------------------------------------------------------
 //

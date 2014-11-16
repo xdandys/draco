@@ -20,10 +20,9 @@
 
 /**
  * @file    comm.h
- * @brief   brief description here
+ * @brief   process OSD data received from Draco main MCU
  *
  */
-
 
 #ifndef COMM_H_
 #define COMM_H_

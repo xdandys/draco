@@ -20,7 +20,7 @@
 
 /**
  * @file    wggps.c
- * @brief   brief description here
+ * @brief   compass widget
  *
  */
 
@@ -32,7 +32,6 @@
 
 #define ABS(x)  (((x) > 0) ? (x) : -(x))
 static const WidgetConfig cfg;
-
 
 inline static char latPrefix(int32_t lat)
 {
@@ -58,7 +57,6 @@ static void paint(void *widget, OsdPainter *painter, int x, int y)
     wgTextSetText(&self->wgtext, gpsText);
     wgTextPaint(&self->wgtext, painter, x, y);
 }
-
 
 static void process(void *widget)
 {

@@ -20,10 +20,9 @@
 
 /**
  * @file    wgtext.h
- * @brief   brief description here
+ * @brief   abstract text widget
  *
  */
-
 
 // WARN: this is not standalone OsdWidget, it's just used by other widgets
 
@@ -37,7 +36,6 @@ extern "C" {
 #include "osdpainter.h"
 #include <stdbool.h>
 #include <stdint.h>
-
 
 typedef struct {
     const OsdBitmap *icon;

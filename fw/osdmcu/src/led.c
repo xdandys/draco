@@ -20,7 +20,7 @@
 
 /**
  * @file    led.c
- * @brief   brief description here
+ * @brief   LEDs controlling code
  *
  */
 
@@ -29,7 +29,6 @@
 #include "swtimer.h"
 
 #define PROCESS_PERIOD          10
-
 
 typedef struct {
     uint32_t period;
@@ -41,9 +40,7 @@ typedef struct {
     GpioAlias gpio;
 } Led;
 
-
 static int8_t swt;
-
 
 static Led leds[] = {
         [LED_RED] = {
@@ -97,8 +94,6 @@ static const LedMode *modeIndexToMode(uint8_t mode)
     return &modes[mode];
 }
 
-
-
 static void processLed(Led *led, uint32_t ticksMs)
 {
     if (!led->mode) return;
@@ -123,8 +118,6 @@ static void setLedMode(Led *led, const LedMode *mode)
         gpioControl(led->gpio, 0);
 }
 
-
-
 static void swtHandler(void *arg)
 {
     (void) arg;
@@ -137,7 +130,6 @@ static void swtHandler(void *arg)
         processLed(led, ticksMs);
     }
 }
-
 
 void ledControl(uint8_t led, uint8_t mode)
 {

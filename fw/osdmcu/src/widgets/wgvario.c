@@ -20,7 +20,7 @@
 
 /**
  * @file    wgvario.c
- * @brief   brief description here
+ * @brief   vertical speed indicator widget
  *
  */
 
@@ -36,13 +36,11 @@
 #define ABS(x)  (((x) > 0) ? (x) : -(x))
 static const WidgetConfig cfg;
 
-
 static const PainterPen varioPen = {
     .color = PAINTER_COLOR_WHITE,
     .outline = 1,
     .style = PAINTER_PEN_STYLE_SOLID,
 };
-
 
 static const char varioFont[] = "consolas14";
 
@@ -66,11 +64,6 @@ static void paint(void *widget, OsdPainter *painter, int x, int y)
         lsprintf(str, "+%d.%d%s", (int)self->vspeed, ABS((int)(self->vspeed * 10) % 10), self->units);
     osdPainterDrawText(painter, 6, -7, str);
 }
-
-
-
-
-
 
 void wgVarioInit(WgVario *wg, float range, const char *units)
 {

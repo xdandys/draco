@@ -20,7 +20,7 @@
 
 /**
  * @file    osdscreen.c
- * @brief   brief description here
+ * @brief   screens are OSD widget containers
  *
  */
 
@@ -31,7 +31,6 @@
 #include "debug.h"
 #endif
 
-
 #define MAX_SLOT_COUNT                  16
 
 #define SCREEN_STATE_SCANNING           0
@@ -39,7 +38,6 @@
 #define SCREEN_STATE_REDRAW_WAIT_SYNC   2
 
 static WidgetSlot slotPool[MAX_SLOT_COUNT];
-
 
 #define SLOT_FOREACH(s, h)  for (s = h; s != 0; s = s->next)
 
@@ -79,7 +77,6 @@ void osdScreenInit(OsdScreen *screen, OsdPainter *painter)
     screen->state = SCREEN_STATE_SCANNING;
 }
 
-
 void osdScreenAddWidget(OsdScreen *screen, OsdWidget *widget, int x, int y)
 {
     WidgetSlot **head =  &screen->wgSlots;
@@ -102,7 +99,6 @@ void osdScreenAddWidget(OsdScreen *screen, OsdWidget *widget, int x, int y)
     }
 }
 
-
 void osdScreenRemoveWidget(OsdScreen *screen, OsdWidget *widget)
 {
 
@@ -122,7 +118,6 @@ void osdScreenRemoveWidget(OsdScreen *screen, OsdWidget *widget)
     screen->state = SCREEN_STATE_REDRAW_WAIT_SYNC;
 }
 
-
 void osdScreenMoveWidget(OsdScreen *screen, OsdWidget *widget, int x, int y)
 {
     WidgetSlot *slot = 0;
@@ -137,18 +132,17 @@ void osdScreenMoveWidget(OsdScreen *screen, OsdWidget *widget, int x, int y)
 
 void osdScreenProcess(OsdScreen *screen, bool forceRedraw)
 {
-// TODO: in future it would be nice to have selective redrawing according
-//       widget boundaries and collisions with other widgets.
-//       Not sure about real effectivity of such solution.
-
-
     WidgetSlot *slot = 0;
-    if (forceRedraw) screen->state = SCREEN_STATE_REDRAW_WAIT_SYNC;
+    if (forceRedraw)
+        screen->state = SCREEN_STATE_REDRAW_WAIT_SYNC;
+
     SLOT_FOREACH(slot, screen->wgSlots) {
         const WidgetConfig *wcfg = slot->widget->cfg;
         if (wcfg) {            
-            if (osdWidgetRedrawNeeded(slot->widget)) screen->needRedraw = true;
-            if (wcfg->ops.process) wcfg->ops.process(slot->widget);            
+            if (osdWidgetRedrawNeeded(slot->widget))
+                screen->needRedraw = true;
+            if (wcfg->ops.process)
+                wcfg->ops.process(slot->widget);
         }        
     }
 
@@ -157,7 +151,7 @@ void osdScreenProcess(OsdScreen *screen, bool forceRedraw)
     }
 
     if (screen->state == SCREEN_STATE_REDRAW_WAIT_SYNC) {
-        if (screen->painter->ready) {
+        if (osdPainterIsReady(screen->painter)) {
             osdPainterClear(screen->painter);
             screen->state = SCREEN_STATE_REDRAWING;
             screen->slotToRedraw = screen->wgSlots;

@@ -20,10 +20,9 @@
 
 /**
  * @file    osd.h
- * @brief   brief description here
+ * @brief   STM32F3 SPI painting device
  *
  */
-
 
 #ifndef OSD_H_
 #define OSD_H_
@@ -39,8 +38,6 @@ void osdMain(void);
 void osdSpiChangeTvSystem(enum OsdSpiTvSystem tvsys);
 
 extern OsdDevice spiOsdDevice;
-
-
 
 #endif /* OSD_H_ */
 

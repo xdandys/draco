@@ -20,7 +20,7 @@
 
 /**
  * @file    spicommio_stm32f3.h
- * @brief   brief description here
+ * @brief   SPI communication STM32F3 driver
  *
  */
 

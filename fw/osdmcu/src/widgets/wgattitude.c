@@ -20,10 +20,9 @@
 
 /**
  * @file    wgattitude.c
- * @brief   brief description here
+ * @brief   attitude indicator
  *
  */
-
 
 #include "wgattitude.h"
 #include "osdpainter.h"
@@ -41,8 +40,6 @@ static const PainterPen attitudePen = {
     .outline = 1,
     .style = PAINTER_PEN_STYLE_SOLID,
 };
-
-
 
 static void paint(void *widget, OsdPainter *painter, int x, int y)
 {
@@ -65,7 +62,6 @@ static void paint(void *widget, OsdPainter *painter, int x, int y)
     osdPainterDrawLine(painter, 10, 0, 5, 0);
     osdPainterDrawLine(painter, 0, -5, 0, -10);
 }
-
 
 static float normRoll(float angle)
 {

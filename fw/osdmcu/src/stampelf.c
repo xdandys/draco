@@ -1,5 +1,30 @@
 /*
+    DRACO - Copyright (C) 2013-2014 Daniel Strnad
 
+    This file is part of DRACO project.
+
+    DRACO is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 3 of the License, or
+    (at your option) any later version.
+
+    DRACO is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+*/
+
+/**
+ * @file    stampelf.c
+ * @brief   ELF CRC stamping utility
+ *
+ */
+
+/*
 This program will stamp elf binary with CRC, application size and timestamp
 so final ROM image (done by objcopy) will look according prescription below.
 
@@ -7,11 +32,7 @@ so final ROM image (done by objcopy) will look according prescription below.
 defined in linker script and pre-filled with some dummy stuff
 of the same size. Name of these sections should be adjusted below!!!
 
-
-
- Mikroelektronika's Cortex-M3 executable image format (parsed by target bootloader)
-
-
+Cortex-M3 executable image format (parsed by target bootloader)
 
   EEDOFF + 40   +---------------------+
                 |        CRC          |
@@ -41,11 +62,6 @@ Version string: application version string ended by 0x00 (fixed size field 32B)
 CRC: CRC-32 polynom 0x04C11DB7, initial value 0xFFFFFFFF (fixed size field 4B, little endian)
      cover whole image except CRC itself
 
-
-
-@author: strnad
-
-
 */
 
 #include <stdio.h>
@@ -65,7 +81,6 @@ const char crcSectionName[] = ".app_crc";
 #define APP_TIMESTAMP_E_OFFSET  8
 #define APP_CRC_E_OFFSET        4
 
-
 //#define VERBOSE
 
 #define PERROR(...) {fprintf(stderr, "Error: " __VA_ARGS__);fflush(stderr);}
@@ -77,15 +92,11 @@ const char crcSectionName[] = ".app_crc";
     #define PVERB(...)
 #endif
 
-
-
 char *filename;
 uint8_t *fcontent = NULL;
 uint8_t *conSections = NULL;
 uint32_t conSectionsLen = 0;
 int fsize = 0;
-
-
 
 // ELF definitions
 static const char elf_ei_magic[] = {0x7f, 'E', 'L', 'F'};
@@ -127,7 +138,6 @@ static const char elf_ei_magic[] = {0x7f, 'E', 'L', 'F'};
 #define ELF_OFF_SH_ADDRALIGN        0x00000020
 #define ELF_OFF_SH_ENTSIZE          0x00000024
 
-
 #define CON_SECTIONS_ALLOC          1048576
 
 typedef struct elfHeaderStruct
@@ -155,7 +165,6 @@ typedef struct elfProgHeaderStruct
     uint32_t p_align;
 } tElfProgHeader;
 
-
 typedef struct elfSecHeaderStruct
 {
     uint32_t sh_name;
@@ -169,8 +178,6 @@ typedef struct elfSecHeaderStruct
     uint32_t sh_addralign;
     uint32_t sh_entsize;
 } tElfSecHeader;
-
-
 
 tElfHeader elfHeader;
 tElfSecHeader elfStrSecHeader;
@@ -255,8 +262,6 @@ uint32_t _CRC32(const uint32_t oldCRC, const uint8_t new_byte)
     return (crc);
 }
 
-
-
 uint32_t CalcCRC32(uint8_t *block, const uint32_t count)
 {
   uint32_t crc=0xffffffff;
@@ -319,8 +324,6 @@ uint8_t readLE8(uint32_t offset)
     return result;
 }
 
-
-
 // put LE 32-bit value to the desired memory positon with check
 void putLE32(uint8_t *p, uint32_t pSize, uint32_t offset, uint32_t value)
 {
@@ -336,7 +339,6 @@ void putLE32(uint8_t *p, uint32_t pSize, uint32_t offset, uint32_t value)
     p[offset+2] = (uint8_t) ((value & 0xff0000) >> 16);
     p[offset+3] = (uint8_t) ((value & 0xff000000) >> 24);
 }
-
 
 void elfGetHeader(tElfHeader *header)
 {
@@ -385,7 +387,6 @@ void elfGetProgHeader(tElfProgHeader *progHeader, tElfHeader *elfHeader, uint16_
     PVERB("p_align: 0x%x\n", progHeader->p_align);
 }
 
-
 void elfGetSecHeader(tElfSecHeader *secHeader, tElfHeader *elfHeader, uint16_t index)
 {
     uint32_t offset = elfHeader->e_shoff + (elfHeader->e_shentsize * index);
@@ -429,7 +430,6 @@ char *elfGetSectionName(char *buff, uint16_t buffSize ,tElfSecHeader *stringSecH
     strncpy(buff, &fcontent[offset + strindex], MIN(stringSecHeader->sh_size - strindex, buffSize));
     return buff;
 }
-
 
 int main(int argc, char *argv[])
 {
@@ -497,7 +497,6 @@ int main(int argc, char *argv[])
     }
     elfGetSecHeader(&elfStrSecHeader, &elfHeader, elfHeader.e_shstrndx);
 
-
     // find vector, crc, appsize and timestamp section headers
     uint8_t vectHeaderFound=0;
     uint8_t crcHeaderFound=0;
@@ -541,7 +540,6 @@ int main(int argc, char *argv[])
         exit(-1);
     }
 
-
     /*
      * Sort section headers according their address
      * from the lowest to the highest one
@@ -563,7 +561,6 @@ int main(int argc, char *argv[])
             }
         }
     } while (!sorted);
-
 
     /*
      * Concentate content of all sections
@@ -623,7 +620,6 @@ int main(int argc, char *argv[])
     PSTD("Stamping app crc to 0x%00000000x\n", crc);
     putLE32(fcontent, fsize, elfCrcSecHeader.sh_offset, crc);
 
-
     // save back to file.
     if (memToFile(filename, &fcontent, fsize) < 0)
     {
@@ -635,5 +631,4 @@ int main(int argc, char *argv[])
     cleanup();
     return 0;
 }
-
 

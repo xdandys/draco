@@ -20,10 +20,9 @@
 
 /**
  * @file    wgtext.c
- * @brief   brief description here
+ * @brief   abstract text widget
  *
  */
-
 
 #include "wgtext.h"
 #include "utils.h"
@@ -70,7 +69,6 @@ void wgTextPaint(WgText *wg, OsdPainter *painter, int x, int y)
         osdPainterDrawBitmap(painter, iconx, icony, wg->icon);
     }
 }
-
 
 void wgTextInit(WgText *wg, const char *iconName, const char *fontName)
 {

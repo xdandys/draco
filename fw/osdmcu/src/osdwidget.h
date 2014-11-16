@@ -20,10 +20,9 @@
 
 /**
  * @file    osdwidget.h
- * @brief   brief description here
+ * @brief   OSD abstract widget
  *
  */
-
 
 #ifndef OSDWIDGET_H_
 #define OSDWIDGET_H_
@@ -32,7 +31,6 @@
 #include <stdbool.h>
 #include "osdpainter.h"
 #define WIDGET_PARENT(w)    ((w)->widget)
-
 
 typedef struct {
     void (*paint)(void *widget, OsdPainter *painter, int x, int y);
@@ -50,7 +48,6 @@ typedef struct {
     bool redrawFlag;
     bool visible;
 } OsdWidget;
-
 
 inline static void osdWidgetRedraw(OsdWidget *widget)
 {    

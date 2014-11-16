@@ -20,7 +20,7 @@
 
 /**
  * @file    spicommio_stm32f3.c
- * @brief   brief description here
+ * @brief   SPI communication STM32F3 driver
  *
  */
 
@@ -40,12 +40,9 @@ DMA_MEM static uint8_t txDmaBuff[TX_DMA_BUFFER_SIZE];
 static uint16_t rxDmaReadPos = 0;
 static volatile int irqDisCounter = 0;
 
-
 static void disableIrq(void)
 {
     __set_BASEPRI(15 << (8 - __NVIC_PRIO_BITS));
-//    NVIC_DisableIRQ(SPI_COMMIO_DMA_CH_TX_IRQN);
-//    NVIC_DisableIRQ(SPI_COMMIO_IRQN);
     irqDisCounter++;
 }
 
@@ -56,12 +53,9 @@ static void enableIrq(void)
     }
     else {
         irqDisCounter = 0;
-//        NVIC_EnableIRQ(SPI_COMMIO_DMA_CH_TX_IRQN);
-//        NVIC_EnableIRQ(SPI_COMMIO_IRQN);
         __set_BASEPRI(0U);
     }
 }
-
 
 void SPI_COMMIO_IRQ_HANDLER(void)
 {
@@ -84,7 +78,6 @@ void SPI_COMMIO_DMA_IRQ_HANDLER(void)
         spiCommIo.cfg->onTxDone(spiCommIo.cfg->priv);
     }
 }
-
 
 void spiCommTx(const uint8_t *data, uint16_t len)
 {
@@ -118,7 +111,6 @@ void spiCommIoUnblockCb(void)
 {
     enableIrq();
 }
-
 
 void spiCommIoSetIrq(int en)
 {
@@ -160,7 +152,6 @@ void spiCommIoStart(const SpiCommIoConfig *config)
 
     enableIrq();
 }
-
 
 void spiCommIoStop(void)
 {

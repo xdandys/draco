@@ -20,10 +20,9 @@
 
 /**
  * @file    wgmode.h
- * @brief   brief description here
+ * @brief   flight mode widget
  *
  */
-
 
 #ifndef WGMODE_H_
 #define WGMODE_H_
@@ -39,7 +38,6 @@ typedef struct {
     WgText wgtext;
     char mode[10];
 } WgMode;
-
 
 void wgModeInit(WgMode *wg);
 void wgModeSetMode(WgMode *wg, const char *mode);

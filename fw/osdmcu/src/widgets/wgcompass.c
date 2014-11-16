@@ -20,7 +20,7 @@
 
 /**
  * @file    wgcompass.c
- * @brief   brief description here
+ * @brief   compass widget
  *
  */
 
@@ -51,7 +51,6 @@ static const PainterPen scalePenInv = {
     .style = PAINTER_PEN_STYLE_SOLID,
 };
 
-
 static const PainterPen captionTextPen = {
     .color = PAINTER_COLOR_WHITE,
     .outline = 1,
@@ -75,7 +74,6 @@ static const PainterPen arrowPen = {
     .outline = 0,
 };
 
-
 static const char captionFont[] = "consolas10";
 static const char headingFont[] = "consolas18";
 
@@ -84,7 +82,6 @@ static const int arrowPoly[] = {
     -5, +9,
     +5, +9,
 };
-
 
 static int normHeading(int deg)
 {
@@ -165,15 +162,12 @@ static void paint(void *widget, OsdPainter *painter, int x, int y)
     osdPainterDrawPoly(painter, arrowPoly, 3);
 }
 
-
-
 void wgCompassInit(WgCompass *wg)
 {
     osdWidgetInit(&wg->widget);
     osdWidgetSetCfg(&wg->widget, &cfg);
     wg->heading = 0;
 }
-
 
 void wgCompassSetHeading(WgCompass *wg, int heading)
 {
@@ -183,7 +177,6 @@ void wgCompassSetHeading(WgCompass *wg, int heading)
         osdWidgetRedraw(&wg->widget);
     }
 }
-
 
 static const WidgetConfig cfg = {
     .ops = {

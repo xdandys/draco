@@ -20,7 +20,7 @@
 
 /**
  * @file    hud.c
- * @brief   brief description here
+ * @brief   managing all HUD widgets
  *
  */
 
@@ -42,7 +42,6 @@
 #include "version.h"
 #include "swtimer.h"
 
-
 //------------------------------------------------------------------------
 //
 //         definitions
@@ -50,7 +49,6 @@
 //------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------
-
 
 #define SPLASH_TIMEOUT                          3000
 
@@ -94,8 +92,6 @@ typedef struct
 static Hud hud_p;
 static Hud *hud = &hud_p;
 
-
-
 //------------------------------------------------------------------------
 //
 //         private functions
@@ -103,7 +99,6 @@ static Hud *hud = &hud_p;
 //------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------
-
 
 static void createPfdLayout(void)
 {
@@ -146,8 +141,6 @@ static void onSplashTimeout(void *arg)
         changeScreen(&hud->screenPfd);
 }
 
-
-
 //------------------------------------------------------------------------
 //
 //         public interface
@@ -155,7 +148,6 @@ static void onSplashTimeout(void *arg)
 //------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------
-
 
 void hudInit(OsdDevice *osdDevice)
 {
@@ -198,9 +190,6 @@ void hudStart(void)
     if (hud->running)
         return;
 
-//    if (osdDeviceStart(hud->device) != 0)
-//        return;
-
     osdPainterSetDevice(&hud->painter, hud->device);
 
     createPfdLayout();
@@ -210,8 +199,6 @@ void hudStart(void)
 
     hud->running = true;
 }
-
-
 
 void hudSetUnits(HudUnits units)
 {
@@ -302,7 +289,6 @@ void hudSetBatteryLimits(float minVoltage, float maxAhs)
 {
     wgPowerSetLimits(&hud->wgPower, minVoltage, (uint16_t)(maxAhs * 1000.0f));
 }
-
 
 void hudControlStopwatch(bool running, uint16_t maxSeconds)
 {

@@ -20,11 +20,9 @@
 
 /**
  * @file    osdpainter.c
- * @brief   brief description here
+ * @brief   painting algorithms
  *
  */
-
-
 
 #include "osdpainter.h"
 #include <string.h>
@@ -39,7 +37,6 @@
 #define ABS(a)              (((a) > 0) ? (a) : -(a))
 #define DEG2RAD             (PI / 180.0f)
 #define SWAP_INTS(a,b)      do {int tmp = (a); (a) = (b); (b) = tmp;} while(0);
-
 
 struct EdgeState {
     struct EdgeState *nextEdge;
@@ -58,7 +55,6 @@ struct EdgeState edgeStatePool[8];
 extern const OsdFont *const osdFontsList[];
 extern const OsdBitmap *const osdBitmapsList[];
 
-
 static void buildGet(const int *points, int pointsCount, struct EdgeState * NextFreeEdgeStruc);
 static void moveXSortedToAet(int);
 static void scanOutAet(OsdPainter *painter, int yToScan);
@@ -73,7 +69,6 @@ static void transformPoint(OsdPainter *painter, int *x, int *y);
 //------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------
-
 
 static void bufferSwapped(void *ctx, uint32_t *level, uint32_t *mask)
 {
@@ -101,7 +96,6 @@ void osdPainterFlush(OsdPainter *painter)
 //
 //------------------------------------------------------------------------
 
-
 static void resetPenBrush(OsdPainter *painter)
 {
     painter->pen.color = PAINTER_COLOR_WHITE;
@@ -120,7 +114,6 @@ void osdPainterInit(OsdPainter *painter)
     resetPenBrush(painter);
     osdPainterIdentity(painter);
 }
-
 
 void osdPainterSetDevice(OsdPainter *painter, OsdDevice *device)
 {
@@ -152,7 +145,6 @@ void osdPainterReset(OsdPainter *painter)
 //------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------
-
 
 void osdPainterTransform(OsdPainter *painter, float *matrix)
 {
@@ -194,7 +186,6 @@ void osdPainterTranslateOrigin(OsdPainter *painter)
     painter->translateX = 0;
     painter->translateY = 0;
 }
-
 
 void osdPainterSetClipping(OsdPainter *painter, int x0, int y0, int x1, int y1)
 {
@@ -269,9 +260,6 @@ static void transformPoint(OsdPainter *painter, int *x, int *y)
     *y += painter->translateY;
 }
 
-
-
-
 //------------------------------------------------------------------------
 //
 //         setters / getters
@@ -279,8 +267,6 @@ static void transformPoint(OsdPainter *painter, int *x, int *y)
 //------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------
-
-
 
 void osdPainterSetBrush(OsdPainter *painter, const PainterBrush *brush)
 {
@@ -301,7 +287,6 @@ void osdPainterGetPen(OsdPainter *painter, PainterPen *pen)
 {
     memcpy(pen, &painter->pen, sizeof(PainterPen));
 }
-
 
 const OsdBitmap *osdBitmapByName(const char *name)
 {
@@ -331,8 +316,6 @@ void osdPainterSetFont(OsdPainter *painter, const OsdFont *font)
 {
     painter->font = font;
 }
-
-
 
 //------------------------------------------------------------------------
 //
@@ -378,7 +361,6 @@ static inline void drawBits(OsdPainter *painter, int wordAddr, uint32_t bitmask)
     }
 }
 
-
 static void drawPixel(OsdPainter *painter, int x, int y)
 {
     if (clipPoint(painter, &x, &y)) return;
@@ -386,7 +368,6 @@ static void drawPixel(OsdPainter *painter, int x, int y)
     int word = wordAddr(painter, x, y);
     drawBits(painter, word, 1 << bitAddr(x));
 }
-
 
 static void drawHlineSimple(OsdPainter *painter, int x0, int x1, int y)
 {
@@ -607,7 +588,6 @@ static const char* drawTextOneLine(OsdPainter *painter, int x, int y, const char
 //
 //------------------------------------------------------------------------
 
-
 /* Pointers to global edge table (GET) and active edge table (AET) */
 static struct EdgeState *getPtr, *aetPtr;
 
@@ -630,7 +610,6 @@ void fillPolygon(OsdPainter *painter, const int *points, int pointsCount)
     painter->pen.color = painter->brush.color;
     painter->pen.style = PAINTER_PEN_STYLE_SOLID;
     painter->pen.outline = 0;
-
 
     edgeTableBuffer = edgeStatePool;
     /* Build the global edge table */
@@ -838,7 +817,6 @@ static void scanOutAet(OsdPainter *painter, int yToScan) {
     }
 }
 
-
 static void fillCircle(OsdPainter *painter, int x0, int y0, int radius)
 {
     int x = radius, y = 0;
@@ -924,7 +902,6 @@ static void outlineCircle(OsdPainter *painter, int x0, int y0, int radius)
     painter->pen.style = penStyle;
 }
 
-
 //------------------------------------------------------------------------
 //
 //         public drawing - primitives
@@ -944,14 +921,11 @@ void osdPainterClear(OsdPainter *painter)
     }
 }
 
-
-
 void osdPainterDrawPixel(OsdPainter *painter, int x, int y)
 {
     transformPoint(painter, &x, &y);
     drawPixel(painter, x, y);
 }
-
 
 void osdPainterDrawLine(OsdPainter *painter, int x0, int y0, int x1, int y1)
 {
@@ -1084,7 +1058,6 @@ void osdPainterDrawPoly(OsdPainter *painter, const int *points, uint8_t count)
             painter->pen.outline = 0;
         }
 
-
         if ((painter->brush.style != PAINTER_BRUSH_STYLE_NONE) && (j == 1)) {
             fillPolygon(painter, points, count);
         }
@@ -1182,8 +1155,6 @@ void osdPainterDrawCircle(OsdPainter *painter, int x0, int y0, int radius)
     }
 }
 
-
-
 void osdPainterDrawBitmap(OsdPainter *painter, int x, int y, const OsdBitmap *bitmap)
 {
     if ((!painter->ready) || (painter->pen.style == PAINTER_PEN_STYLE_NONE) || (!bitmap)) return;
@@ -1196,7 +1167,6 @@ void osdPainterDrawBitmap(OsdPainter *painter, int x, int y, const OsdBitmap *bi
     }
     bitblit(painter, bitmap->buff, bitmap->width, bitmap->height, x, y);
 }
-
 
 void osdPainterTextBounds(OsdPainter *painter, const char *text, int *width, int *height)
 {
@@ -1238,7 +1208,6 @@ void osdPainterDrawText(OsdPainter *painter, int x, int y, const char *text)
         text = drawTextOneLine(painter, x, y, text);
     }
 }
-
 
 void osdPainterDrawTextAligned(OsdPainter *painter, int x, int y, int width, int height,
                                int alignment, const char *text)

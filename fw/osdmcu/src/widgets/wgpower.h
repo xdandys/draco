@@ -20,10 +20,9 @@
 
 /**
  * @file    wgpower.h
- * @brief   brief description here
+ * @brief   battery widget
  *
  */
-
 
 #ifndef WGPOWER_H_
 #define WGPOWER_H_

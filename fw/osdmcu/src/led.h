@@ -20,10 +20,9 @@
 
 /**
  * @file    led.h
- * @brief   brief description here
+ * @brief   LEDs controlling code
  *
  */
-
 
 #ifndef LED_H_
 #define LED_H_
@@ -38,11 +37,8 @@
 #define LED_MODE_BLINK_SLOW     2
 #define LED_MODE_BLINK_FAST     3
 
-
 void ledInit(void);
 void ledControl(uint8_t led, uint8_t mode);
-
-
 
 #endif /* LED_H_ */
 

@@ -20,7 +20,7 @@
 
 /**
  * @file    wgpower.c
- * @brief   brief description here
+ * @brief   battery widget
  *
  */
 
@@ -30,7 +30,6 @@
 #include <math.h>
 #include <string.h>
 static const WidgetConfig cfg;
-
 
 static void paint(void *widget, OsdPainter *painter, int x, int y)
 {

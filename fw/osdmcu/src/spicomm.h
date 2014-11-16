@@ -24,7 +24,6 @@
  *
  */
 
-
 #ifndef SPICOMM_H_
 #define SPICOMM_H_
 
@@ -32,7 +31,7 @@
 
 //-----------------------------------------------------------------------------
 //
-//          Low level interface
+//          hardware interface
 //
 //-----------------------------------------------------------------------------
 //
@@ -43,13 +42,11 @@ typedef void (*OnByteReceivedCb)(void *priv, uint8_t b);
 typedef void (*OnTransferEndCb)(void *priv);
 typedef void (*OnIoErrorCb)(void *priv);
 
-
 typedef struct {
     OnTxDoneCb onTxDone;
     OnByteReceivedCb onByteReceived;
     void *priv;
 }SpiCommIoConfig;
-
 
 typedef struct {
     void (*tx)(const uint8_t *data, uint16_t len);
@@ -61,18 +58,13 @@ typedef struct {
     const SpiCommIoConfig *cfg;
 }SpiCommIo;
 
-
-
-
-
 //-----------------------------------------------------------------------------
 //
-//          High level interface
+//          logic interface
 //
 //-----------------------------------------------------------------------------
 //
 //-----------------------------------------------------------------------------
-
 
 typedef void (*OnRequestReceivedCb)(void *priv, uint8_t *data, uint8_t len, uint8_t *ansData, uint8_t *ansLen);
 typedef void (*OnDataReceivedCb)(void *priv, uint8_t *data, uint8_t len);
@@ -87,8 +79,6 @@ typedef struct {
     OnRequestTimeoutCb onRequestTimeout;   // <-- TODO this is currently never called
     SpiCommIo *io;
 } SpiCommConfig;
-
-
 
 typedef struct {
     // SpiComm IO device bindings
@@ -106,7 +96,6 @@ typedef struct {
     uint8_t *rxBuff;
     uint8_t rxRequestLastNo;
 
-
     uint8_t txBuffer[264];
     uint8_t rxRequestFrame[256];
     uint8_t rxRequestFramLen;
@@ -119,9 +108,7 @@ typedef struct {
     volatile uint16_t rxFifoW;
     volatile uint16_t rxFifoR;
 
-
 } SpiComm;
-
 
 typedef enum {
     SPICOMM_OK,
@@ -129,17 +116,13 @@ typedef enum {
     SPICOMM_ERROR,
 } SpiCommResult;
 
-
 void spiCommStart(SpiComm *spiComm, const SpiCommConfig *config);
 void spiCommStop(SpiComm *spiComm);
 SpiCommResult spiCommSendRequest(SpiComm *spiComm, uint8_t *data, uint8_t dataLen);
 SpiCommResult spiCommSendData(SpiComm *spiComm, uint8_t *data, uint8_t dataLen);
 
-
 void spiCommProcess(SpiComm *spiComm);
 
-
 void spiCommTest(void);
-
 
 #endif /* SPICOMM_H_ */

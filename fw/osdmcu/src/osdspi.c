@@ -20,7 +20,7 @@
 
 /**
  * @file    osd.c
- * @brief   brief description here
+ * @brief   STM32F3 SPI painting device
  *
  */
 
@@ -45,7 +45,6 @@
 #define STATE_SYSTEM_DETECTION          1
 #define STATE_RUNNING                   2
 #define DETECTION_PAL_LINE_THRESHOLD    280
-
 
 VIDEO_BUFFER_MEM static uint32_t levelBuffer[2][VIDEO_BUFFER_SIZE];
 VIDEO_BUFFER_MEM static uint32_t maskBuffer[2][VIDEO_BUFFER_SIZE];
@@ -105,7 +104,6 @@ static Osd osd;
 
 static void switchTvSystem(const TvSystem *tvSys);
 
-
 static void prepareLine(uint16_t num)
 {
 
@@ -147,7 +145,6 @@ static void prepareLinePeriphs(void)
 void CSyncInterrupt(void)
 {
 }
-
 
 void HSyncInterrupt(void)
 {
@@ -221,7 +218,6 @@ void SPI_LEVEL_DMA_CH_IRQH(void)
     while (SPI_I2S_GetFlagStatus(SPI_LEVEL, SPI_I2S_FLAG_BSY));
     while (SPI_I2S_GetFlagStatus(SPI_MASK, SPI_I2S_FLAG_BSY));
 
-
     SPI_Cmd(SPI_LEVEL, DISABLE);
     SPI_Cmd(SPI_MASK, DISABLE);
 
@@ -269,7 +265,6 @@ void osdSpiChangeTvSystem(enum OsdSpiTvSystem tvsys)
         break;
     }
 }
-
 
 static uint32_t getSpiClk(SPI_TypeDef *spi)
 {
@@ -343,7 +338,6 @@ static int deviceStart(void *priv)
     SPI_Init(SPI_MASK, &spiMaskConf);
     SPI_I2S_DMACmd(SPI_MASK, SPI_I2S_DMAReq_Tx, ENABLE);
 
-
     // TODO should be this interrupt handled??
     SPI_I2S_ITConfig(SPI_MASK, SPI_I2S_IT_TXE, ENABLE);
     SPI_LastDMATransferCmd(SPI_MASK, SPI_LastDMATransfer_TxEvenRxEven);
@@ -399,13 +393,11 @@ static int deviceStart(void *priv)
     prepareLine(0);
     prepareLinePeriphs();
 
-
     dprint("pxclk = %u", osd.pxClk);
     dprint("pxperiod = %u", osd.pxPeriod);
     dprint("hres = %u", osd.hres);
     dprint("vres = %u", osd.vres);
     dprint("SPICR2 = 0x%02x", SPI_LEVEL->CR2);
-
 
     if (osd.tvsysForced)
         osd.state = STATE_RUNNING;
@@ -440,7 +432,6 @@ static int deviceRegisterSwappedCb(void *priv, BufferSwappedCb cb, void *ctx)
     return OSD_DEVICE_SUCCESS;
 }
 
-
 static uint32_t *deviceGetLevelBackBuffer(void *priv)
 {
     (void) priv;
@@ -452,7 +443,6 @@ static uint32_t *deviceGetMaskBackBuffer(void *priv)
     (void) priv;
     return osd.bMaskBuffer;
 }
-
 
 OsdDevice spiOsdDevice = {
         .priv = &osd,

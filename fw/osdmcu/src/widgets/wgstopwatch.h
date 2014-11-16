@@ -20,10 +20,9 @@
 
 /**
  * @file    wgStopwatch.h
- * @brief   brief description here
+ * @brief   stopwatch (flighttime) widget
  *
  */
-
 
 #ifndef WGSTOPWATCH_H_
 #define WGSTOPWATCH_H_
@@ -49,7 +48,6 @@ void wgStopwatchInit(WgStopwatch *wg);
 void wgStopwatchStart(WgStopwatch *wg, bool reset);
 void wgStopwatchStop(WgStopwatch *wg);
 void wgStopwatchSetLimit(WgStopwatch *wg, int secondsHigh);
-
 
 #ifdef __cplusplus
 }

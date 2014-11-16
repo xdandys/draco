@@ -20,10 +20,9 @@
 
 /**
  * @file    wgcompass.h
- * @brief   brief description here
+ * @brief   compass widget
  *
  */
-
 
 #ifndef WGCOMPASS_H_
 #define WGCOMPASS_H_
