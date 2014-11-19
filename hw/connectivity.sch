@@ -38,7 +38,7 @@ $Descr A3 16535 11693
 encoding utf-8
 Sheet 2 3
 Title "DRACO - connectivity sheet"
-Date "25 sep 2014"
+Date "19 nov 2014"
 Rev "1.1"
 Comp "dandys"
 Comment1 ""
@@ -3087,7 +3087,7 @@ L R R18
 U 1 1 54242744
 P 1750 5450
 F 0 "R18" V 1850 5550 40  0000 C CNN
-F 1 "39k" V 1750 5450 40  0000 C CNN
+F 1 "18k" V 1750 5450 40  0000 C CNN
 F 2 "r_0603" V 1680 5450 30  0001 C CNN
 F 3 "~" H 1750 5450 30  0000 C CNN
 	1    1750 5450
