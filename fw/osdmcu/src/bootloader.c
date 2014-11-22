@@ -28,6 +28,11 @@
 #include "swtimer.h"
 #include "delay.h"
 
+void HSyncInterrupt() {}
+void CSyncInterrupt() {}
+void VSyncInterrupt() {}
+
+
 int main(void)
 {
     boardInit();

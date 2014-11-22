@@ -30,6 +30,7 @@
 #include <stm32f30x.h>
 #include <stm32f30x_rcc.h>
 #include <stm32f30x_spi.h>
+#include <stm32f30x_gpio.h>
 
 #define VIDEO_BUFFER_MEM __attribute__ ((section(".videobuffer")))
 #define DMA_MEM __attribute__ ((section(".dma")))

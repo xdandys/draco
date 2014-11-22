@@ -32,9 +32,9 @@ ifeq ($(TARGET_TYPE), $(TARGET_BOOTLOADER))
 	SOURCES+=$(SRCDIR)/board.c
 	SOURCES+=$(SRCDIR)/delay.c
 	SOURCES+=$(SRCDIR)/swtimer.c
-	SOURCES+=$(SRCDIR)/osdspi.c
 	SOURCES+=$(SRCDIR)/led.c
 	SOURCES+=$(SRCDIR)/utils.c
+	SOURCES+=$(SRCDIR)/flashupdate.c
 	SOURCES+=$(wildcard $(SRCDIR)/stm32_lib/peripherals/src/*.c)
 else ifeq ($(TARGET_TYPE), $(TARGET_FIRMWARE))
 	SOURCES+=$(SRCDIR)/startup.c
