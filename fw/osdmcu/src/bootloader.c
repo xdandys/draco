@@ -31,6 +31,12 @@
 int main(void)
 {
     boardInit();
+
+    // make sure video signal can passthrough while
+    // we are in bootloader
+    gpioChangeMode(PinOsdMask, GPIO_Mode_OUT);
+    gpioControl(PinOsdMask, 1);
+
     sysTimerInit();
     ledInit();
     while(1);

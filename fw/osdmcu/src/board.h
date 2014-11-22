@@ -108,6 +108,7 @@ void jumpToBootLoader(uint16_t flags);
 
 void gpioControl(GpioAlias alias, uint8_t on);
 uint8_t gpioState(GpioAlias alias);
+void gpioChangeMode(GpioAlias alias, GPIOMode_TypeDef mode);
 
 void disableIrqs(void);
 void enableIrqs(void);

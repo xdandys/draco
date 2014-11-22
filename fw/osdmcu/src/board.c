@@ -32,6 +32,7 @@
 #include <stm32f30x_adc.h>
 #include <stm32f30x_usart.h>
 #include <core_cm4.h>
+#include <string.h>
 
 #include "board.h"
 #include "debug.h"
@@ -525,6 +526,14 @@ uint8_t gpioState(GpioAlias alias)
     return bit;
 }
 
+void gpioChangeMode(GpioAlias alias, GPIOMode_TypeDef mode)
+{
+    const GpioItem *gpio = &GPIOInitTable[alias];
+    GPIO_InitTypeDef gpioInit;
+    memcpy(&gpioInit, &gpio->initStruct, sizeof(gpioInit));
+    gpioInit.GPIO_Mode = mode;
+    GPIO_Init(gpio->port, &gpioInit);
+}
 /** Setup system PLL, clocks and flash prefetching */
 void setupClocks(void)
 {
