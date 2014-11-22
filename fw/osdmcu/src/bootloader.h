@@ -31,6 +31,8 @@ extern unsigned long __bl_act;              // word in SRAM for communication wi
 /*
  * Communication with bootloader
  */
+#define BL_ACT_DIRECTION_MASK           0xFFFF0000
+#define BL_ACT_ACTION_MASK              0x0000FFFF
 #define BL_ACT_APPTOBL                  0xAA550000
 #define BL_ACT_BLTOAPP                  0x55AA0000
 #define BL_ACT_APPREQ_STAY              0x00000001  /**< application request to stay in bootloader for unlimited time */

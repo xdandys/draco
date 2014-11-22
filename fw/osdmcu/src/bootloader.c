@@ -28,13 +28,42 @@
 #include "swtimer.h"
 #include "delay.h"
 #include "bootloader.h"
+#include "flashupdate.h"
+#include "debug.h"
 
 void HSyncInterrupt() {}
 void CSyncInterrupt() {}
 void VSyncInterrupt() {}
 
+static void bootFirmware(void)
+{
+    uint8_t *appPtr = 0;
+    flashReadGetPointer(FLASH_DEVICE_DEFAULT, FLASH_APPLICATION_MAIN_ADDR, &appPtr);
+    flashDeinit(FLASH_DEVICE_DEFAULT);
+    uint32_t appAddr = (uint32_t) appPtr;
+    uint32_t* RHAddr = (uint32_t*)*((uint32_t*)((uint32_t)appAddr + 4));
+    void (*jumpToApp)(void) = (void (*)(void)) RHAddr;
+    // set vector table, set stack pointer and boot
+    __set_MSP(*(uint32_t*)appAddr);
+    SCB->VTOR = (uint32_t)appAddr;
+    //bye!
+    jumpToApp();
+    while(1);
+}
+
 int main(void)
 {
+    dprint("bootloader pyco");
+    flashInit(FLASH_DEVICE_DEFAULT);
+    if (((__bl_act & BL_ACT_DIRECTION_MASK) != BL_ACT_APPTOBL) ||
+            ((__bl_act & BL_ACT_ACTION_MASK) == 0)) {
+        // we can try to boot immediately
+        if (flashCheckAppImage(FLASH_DEVICE_DEFAULT, FLASH_APPLICATION_MAIN_ADDR, 0) == FLUPDATE_OK) {
+            // firmware is OK (CRC match)
+            dprint("firmware ok");
+            bootFirmware();
+        }
+    }
     boardInit();
 
     // make sure video signal can passthrough while

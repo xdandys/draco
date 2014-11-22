@@ -1,4 +1,5 @@
 target remote localhost:3333
 monitor reset halt
-monitor flash write_image erase build/osdmcu.hex
+monitor flash write_image erase build/osd_bootloader/osd_bootloader.hex
+monitor flash write_image erase build/osd_firmware/osd_firmware.hex
 monitor reset run

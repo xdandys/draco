@@ -45,7 +45,6 @@ typedef void* FlashDevice_t;
 
 extern FlashDevice_t stm32f303ccFlashDevice;
 
-
 void flashInit(FlashDevice_t dev);
 void flashDeinit(FlashDevice_t dev);
 enum FlashUpdateRes flashReadArea(FlashDevice_t dev, uint8_t *dst, uint32_t address, uint32_t offset, uint32_t count);

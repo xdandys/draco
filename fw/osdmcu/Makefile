@@ -21,7 +21,6 @@ STMLIBDIR :=$(SRCDIR)/stm32_lib
 FONTGEN := $(UTILSDIR)/fontgen.py
 BITMAPGEN := $(UTILSDIR)/bitmapgen.py
 
-
 #linker script
 ifeq ($(TARGET_TYPE), $(TARGET_BOOTLOADER))
 	LINKERSCRIPT=$(SRCDIR)/linker_bootloader.ld
