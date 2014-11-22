@@ -234,11 +234,11 @@ static void onRequestReceived(void *priv, uint8_t *data, uint8_t len, uint8_t *a
     }
 
     switch (data[0]) {
+
     case REQ_ID_VERSION:
-        ansData[0] = VMAJOR;
-        ansData[1] = VMINOR;
-        strcpy((char*)(&ansData[2]), DEVIDV);
-        *ansLen = 2 + strlen(DEVIDV);
+        // TODO return bootloader/firmware mode
+        strcpy((char*)(&ansData[0]), __firmwareVersion);
+        *ansLen = strlen(__firmwareVersion);
         break;
 
     case REQ_ID_HUD_ENABLE:

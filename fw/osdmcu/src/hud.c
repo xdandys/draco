@@ -174,7 +174,7 @@ void hudInit(OsdDevice *osdDevice)
     wgPowerInit(&hud->wgPower);
     wgStopwatchInit(&hud->wgStopwatch);
     wgModeInit(&hud->wgMode);
-    wgSplashInit(&hud->wgSplash, VMAJOR, VMINOR);
+    wgSplashInit(&hud->wgSplash, __firmwareVersion);
 
     // create timers
     hud->swtSplash = swTimerInstall(onSplashTimeout, hud);

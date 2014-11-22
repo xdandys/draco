@@ -26,6 +26,15 @@
 
 #include "version.h"
 
+#ifndef GIT_DESCRIBE
+    #define GIT_DESCRIBE "unknown version"
+#endif
+
+#define STRINGIFY(x) #x
+#define TOSTRING(x) STRINGIFY(x)
+
 // version mustn't exceed 32 bytes!
+#ifndef OSD_SIMULATOR
 __attribute__ ((section(".app_version"), used))
-const char __APP_VERSION[] = VERSIONSTRING;
+#endif
+const char __firmwareVersion[] = "" TOSTRING(GIT_DESCRIBE);

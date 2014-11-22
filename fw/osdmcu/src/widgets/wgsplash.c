@@ -31,12 +31,11 @@
 
 static const WidgetConfig cfg;
 
-void wgSplashInit(WgSplash *wg, uint8_t major, uint8_t minor)
+void wgSplashInit(WgSplash *wg, const char *version)
 {
     osdWidgetInit(&wg->widget);
     osdWidgetSetCfg(&wg->widget, &cfg);
-    wg->major = major;
-    wg->minor = minor;
+    wg->version = version;
 }
 
 static void paint(void *widget, OsdPainter *painter, int x, int y)
@@ -47,9 +46,9 @@ static void paint(void *widget, OsdPainter *painter, int x, int y)
     osdPainterDrawBitmap(painter, 0, 0, osdBitmapByName("dracologo"));
     osdPainterSetFont(painter, osdFontByName("consolas12"));
 
-    char buff[64];
-    lsprintf(buff, "OSD FW version: %u.%02u\n powered by TauLabs", self->major, self->minor);
-    osdPainterDrawText(painter, 30, 7 + osdBitmapByName("dracologo")->height, buff);
+    char buff[80];
+    lsprintf(buff, "OSD FW: %s\n\n      powered by TauLabs", self->version);
+    osdPainterDrawText(painter, -10, 7 + osdBitmapByName("dracologo")->height, buff);
 }
 
 static const WidgetConfig cfg = {

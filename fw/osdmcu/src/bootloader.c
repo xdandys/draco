@@ -1,6 +1,6 @@
 /*
     DRACO - Copyright (C) 2013-2014 Daniel Strnad
-
+                 
     This file is part of DRACO project.
 
     DRACO is free software; you can redistribute it and/or modify
@@ -19,20 +19,14 @@
 */
 
 /**
- * @file    version.h
- * @brief   firmware version
+ * @file    bootloader.c
+ * @brief   bootloader code
  *
  */
 
-#ifndef VERSION_H_
-#define VERSION_H_
-#ifdef __cplusplus
-extern "C" {
-#endif
+int main(void)
+{
+    while(1);
 
-extern const char __firmwareVersion[];
-
-#ifdef __cplusplus
+    return 0;
 }
-#endif
-#endif /* VERSION_H_ */

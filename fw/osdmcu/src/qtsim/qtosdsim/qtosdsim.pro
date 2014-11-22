@@ -12,6 +12,7 @@ TARGET = qtosdsim
 TEMPLATE = app
 
 DEFINES += "OSD_SIMULATOR"
+DEFINES += "GIT_DESCRIBE=\"hw_rev1.10-3-g4b79-dirty\""
 INCLUDEPATH += ../../
 
 SOURCES += main.cpp\
@@ -21,6 +22,7 @@ SOURCES += main.cpp\
         ../../utils.c \
         ../../swtimer.c \
         ../../hud.c \
+        ../../version.c \
         ../../resources/*.c \
         ../../widgets/*.c \
         qosdwidget.cpp

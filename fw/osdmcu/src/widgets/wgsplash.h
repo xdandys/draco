@@ -33,11 +33,10 @@ extern "C" {
 #include "osdwidget.h"
 typedef struct {
     OsdWidget widget;
-    uint8_t major;
-    uint8_t minor;
+    const char *version;
 } WgSplash;
 
-void wgSplashInit(WgSplash *wg, uint8_t major, uint8_t minor);
+void wgSplashInit(WgSplash *wg, const char *version);
 
 #ifdef __cplusplus
 }
