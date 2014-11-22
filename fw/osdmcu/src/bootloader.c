@@ -23,9 +23,16 @@
  * @brief   bootloader code
  *
  */
+#include "board.h"
+#include "led.h"
+#include "swtimer.h"
+#include "delay.h"
 
 int main(void)
 {
+    boardInit();
+    sysTimerInit();
+    ledInit();
     while(1);
 
     return 0;

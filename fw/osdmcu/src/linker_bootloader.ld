@@ -3,7 +3,7 @@
  */
 MEMORY
 {
-    flash   (RX)  : org = 0x08004000, len = 240k
+    flash   (RX)  : org = 0x08000000, len = 16k 
     ram     (RWX) : org = 0x20000000, len = 40k
     ram_ccm (RWX) : org = 0x10000000, len = 8k
 }
