@@ -84,6 +84,15 @@ SECTIONS
     _etext = .;
     _textdata = _etext;
 
+	/* bootloader activity word */
+    .blact_section : ALIGN(4)
+    {
+        _sblact_section = .;
+        KEEP(*.(.blact_section))
+        _eblact_section = .;
+        . += 4 - (_eblact_section - _sblact_section);
+    } > ram_ccm
+
     /* initialized data*/
     .data : ALIGN(4)
     {

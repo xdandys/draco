@@ -27,11 +27,11 @@
 #include "led.h"
 #include "swtimer.h"
 #include "delay.h"
+#include "bootloader.h"
 
 void HSyncInterrupt() {}
 void CSyncInterrupt() {}
 void VSyncInterrupt() {}
-
 
 int main(void)
 {
@@ -44,6 +44,7 @@ int main(void)
 
     sysTimerInit();
     ledInit();
+
     while(1);
 
     return 0;

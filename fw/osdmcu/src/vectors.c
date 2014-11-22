@@ -229,6 +229,9 @@ const unsigned long __APP_TIME_STAMP = 0x00000000;      // will be filled by sta
 __attribute__ ((section(".app_crc"), used))
 const unsigned long __APP_CRC = 0x00000000;              // will be filled by stampelf
 
+__attribute__ ((section(".blact_section"), used))
+unsigned long __bl_act;              // word in SRAM for communication with bootloader
+
 void Default_Handler(void) {
     gpioControl(PinLedRed, 1);
     DebugSendString("!!! Default Handler !!!");

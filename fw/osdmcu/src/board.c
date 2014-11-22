@@ -378,18 +378,6 @@ static const GpioItem GPIOInitTable[] = {
         {0},
 };
 
-/** get message from bootloader */
-uint32_t getBlAct(void)
-{
-    return *(volatile unsigned long*)0x20000000;
-}
-
-/** set message for bootloader */
-void setBlAct(uint32_t blAct)
-{
-    *(volatile unsigned long*)0x20000000 = blAct;
-}
-
 /** enable clocks for all used peripherals */
 static void initPeriphClocks(void)
 {
@@ -702,7 +690,6 @@ void jumpToBootLoader(uint16_t blFlags)
     SysTick->CTRL &= ~SysTick_CTRL_ENABLE_Msk;
 
     __set_MSP(*(uint32_t*)0x08000000);
-    setBlAct(BL_ACT_APPTOBL | blFlags);
 
     uint32_t* RHAddr = (uint32_t*)*((uint32_t*)((uint32_t)0x08000000 + 4));
     void (*jmpbl)(void) = (void (*)(void)) RHAddr;

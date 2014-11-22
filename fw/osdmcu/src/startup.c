@@ -60,12 +60,6 @@ void __init_Data(void) {
 
 void Reset_Handler(void) {
 	__init_Data();
-    // backup bootloader activity word and remap vectors to RAM
-    unsigned long __bl_act;
-	__bl_act = *(volatile unsigned long*)0x20000000;
-	// __copyVectorsToRAM();
-	*(volatile unsigned long*)0x20000000 = __bl_act;
-
 	SCB->VTOR = (uint32_t)&_isr_vectors_start;
 	setupClocks();
 

@@ -91,19 +91,6 @@ typedef enum GPIOAliasEnum {
     NoPin,
 } GpioAlias;
 
-/*
- * Communication with bootloader
- */
-#define BL_ACT_APPTOBL                  0xAA550000
-#define BL_ACT_BLTOAPP                  0x55AA0000
-#define BL_ACT_APPREQ_STAY              0x00000001  /**< application request to stay in bootloader for unlimited time */
-#define BL_ACT_APPREQ_STAY_5S           0x00000002  /**< application request to stay in bootloader for 5 sec */
-#define BL_ACT_BL_ACTIVITY              0x00000100  /**< bootloader was active */
-#define BL_ACT_BL_FLASH                 0x00000200  /**< bootloader was active and flashing was performed */
-
-void setBlAct(uint32_t blAct);
-uint32_t getBlAct(void);
-
 void boardInit(void);
 void jumpToBootLoader(uint16_t flags);
 
