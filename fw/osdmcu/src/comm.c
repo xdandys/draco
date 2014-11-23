@@ -264,6 +264,12 @@ static void onRequestReceived(void *priv, uint8_t *data, uint8_t len, uint8_t *a
         rebootPlanned = true;
         rebootTimeMs = getElapsedMs();
         break;
+
+    case REQ_ID_EXIT_BOOT:
+        // we are already out of bootloader
+        ansData[0] = COMM_RESULT_OK;
+        *ansLen = 1;
+        break;
     }
 }
 
@@ -299,7 +305,7 @@ void commProcess(void)
     spiCommProcess(&spiComm);
 
     if (rebootPlanned) {
-        if (getElapsedMs2(rebootTimeMs) > 20) {
+        if ((getElapsedMs() - rebootTimeMs) > 20) {
             __bl_act = BL_ACT_APPTOBL | BL_ACT_APPREQ_STAY;
             NVIC_SystemReset();
             while(1);

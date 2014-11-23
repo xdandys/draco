@@ -68,7 +68,7 @@ static void onRequestReceived(void *priv, uint8_t *data, uint8_t len, uint8_t *a
     }
         break;
 
-    case REQ_ID_WRITE_BEGIN: {
+    case REQ_ID_WRITE_START: {
         uint32_t size = GETLE32(&data[1]);
         uint32_t offset = GETLE32(&data[5]);
         if (size > FLASH_APPLICATION_MAX_SIZE || len < 9) {
@@ -97,7 +97,7 @@ static void onRequestReceived(void *priv, uint8_t *data, uint8_t len, uint8_t *a
     }
     break;
 
-    case REQ_ID_START_READ: {
+    case REQ_ID_READ_START: {
         if (len < 5) {
             ansData[0] = COMM_RESULT_ERROR;
             *ansLen = 1;
@@ -178,6 +178,7 @@ static void bootFirmware(void)
 int main(void)
 {
     flashInit(FLASH_DEVICE_DEFAULT);
+    dprint("bootloader __bl_act = 0x%02x", __bl_act);
     if (((__bl_act & BL_ACT_DIRECTION_MASK) != BL_ACT_APPTOBL) ||
             ((__bl_act & BL_ACT_ACTION_MASK) == 0)) {
         // we can try to boot immediately
@@ -201,7 +202,7 @@ int main(void)
     while(1) {
         spiCommProcess(&spiComm);
         if (bootPlanned) {
-            if (getElapsedMs2(bootTimeMs) > 20) {
+            if ((getElapsedMs() - bootTimeMs) > 20) {
                 __bl_act = BL_ACT_BLTOAPP | BL_ACT_BL_ACTIVITY;
                 if (flashingPerformed)
                     __bl_act |= BL_ACT_BL_FLASH;

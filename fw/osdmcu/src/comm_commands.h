@@ -34,9 +34,9 @@
 #define REQ_ID_SET_UNITS            12
 #define REQ_ID_FORCE_TV_SYSTEM      20
 
-#define REQ_ID_WRITE_BEGIN          128
+#define REQ_ID_WRITE_START          128
 #define REQ_ID_WRITE_CHUNK          129
-#define REQ_ID_START_READ           130
+#define REQ_ID_READ_START           130
 #define REQ_ID_READ_CHUNK           131
 #define REQ_ID_EXIT_BOOT            132
 #define REQ_ID_ENTER_BOOT           133
