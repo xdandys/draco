@@ -33,25 +33,14 @@
 #include "hud.h"
 #include "debug.h"
 #include "osdspi.h"
+#include "comm_commands.h"
+#include "bootloader.h"
 #include <string.h>
 #include <board.h>
 
 SpiComm spiComm;
-
-#define REQ_ID_VERSION              0
-#define REQ_ID_HUD_ENABLE           1
-#define REQ_ID_POWER_LIMITS         10
-#define REQ_ID_FLIGHT_MODE          11
-#define REQ_ID_SET_UNITS            12
-#define REQ_ID_FORCE_TV_SYSTEM      20
-
-#define DATA_ID_LED_CONTROL         0
-#define DATA_ID_PFD                 1
-#define DATA_ID_WAYPOINT_HOME       2
-#define DATA_ID_WAYPOINT_NAVI       3
-#define DATA_ID_GNSS                4
-#define DATA_ID_POWER               5
-#define DATA_ID_STOPWATCH           6
+static bool rebootPlanned;
+static uint32_t rebootTimeMs;
 
 struct DataPfd {
     int16_t speed;      /**< 10^-2 m/s */
@@ -236,9 +225,9 @@ static void onRequestReceived(void *priv, uint8_t *data, uint8_t len, uint8_t *a
     switch (data[0]) {
 
     case REQ_ID_VERSION:
-        // TODO return bootloader/firmware mode
-        strcpy((char*)(&ansData[0]), __firmwareVersion);
-        *ansLen = strlen(__firmwareVersion);
+        ansData[0] = COMM_VERSION_MODE_FIRMWARE;
+        strcpy((char*)(&ansData[1]), __firmwareVersion);
+        *ansLen = strlen(__firmwareVersion) + 1;
         break;
 
     case REQ_ID_HUD_ENABLE:
@@ -269,6 +258,12 @@ static void onRequestReceived(void *priv, uint8_t *data, uint8_t len, uint8_t *a
         *ansLen = 0;
         break;
 
+    case REQ_ID_ENTER_BOOT:
+        *ansLen = 1;
+        ansData[0] = COMM_RESULT_OK;
+        rebootPlanned = true;
+        rebootTimeMs = getElapsedMs();
+        break;
     }
 }
 
@@ -302,6 +297,14 @@ static void onDataReceived(void *priv, uint8_t *data, uint8_t len)
 void commProcess(void)
 {
     spiCommProcess(&spiComm);
+
+    if (rebootPlanned) {
+        if (getElapsedMs2(rebootTimeMs) > 20) {
+            __bl_act = BL_ACT_APPTOBL | BL_ACT_APPREQ_STAY;
+            NVIC_SystemReset();
+            while(1);
+        }
+    }
 }
 
 void commStart(void)

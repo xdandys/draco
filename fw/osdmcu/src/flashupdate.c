@@ -44,6 +44,7 @@ struct FlashPage {
 
 struct FlashDevice {
     uint32_t writeAddr;
+    uint32_t readAddr;
     bool seqWriteInProgress;
     bool seqWritePageErase;
     const struct FlashDeviceLayout *layout;
@@ -234,7 +235,8 @@ void flashInit(FlashDevice_t dev)
     flash->writeAddr = 0;
     flash->seqWriteInProgress = false;
     flash->seqWritePageErase = 0;
-
+    flash->readAddr = 0;
+    RCC_AHBPeriphClockCmd(RCC_AHBPeriph_FLITF, ENABLE);
     FLASH->CR = FLASH_CR_LOCK;
     FLASH->KEYR = 0x45670123;
     FLASH->KEYR = 0xCDEF89AB;
@@ -309,6 +311,24 @@ static uint8_t flashAddrToPage(FlashDevice_t dev, uint32_t addr)
     }
     if (pageNr > 0) pageNr--;
     return pageNr;
+}
+
+enum FlashUpdateRes flashStartSequentialRead(FlashDevice_t dev, uint32_t addr)
+{
+    struct FlashDevice *flash = (struct FlashDevice*)dev;
+    if (addr > (flash->layout->size - 1))
+        return FLUPDATE_ERR_ADDR_OUT_OF_RANGE;
+
+    flash->readAddr = addr;
+
+    return FLUPDATE_OK;
+}
+enum FlashUpdateRes flashSequentialRead(FlashDevice_t dev, uint8_t *data, uint32_t size)
+{
+    struct FlashDevice *flash = (struct FlashDevice*)dev;
+    enum FlashUpdateRes res = flashReadArea(dev, data, flash->readAddr, 0, size);
+    flash->readAddr += size;
+    return res;
 }
 
 enum FlashUpdateRes flashStartSequentialWrite(FlashDevice_t dev, uint32_t addr)

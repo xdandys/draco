@@ -23,17 +23,141 @@
  * @brief   bootloader code
  *
  */
+#include <string.h>
+#include <stdbool.h>
 #include "board.h"
 #include "led.h"
 #include "swtimer.h"
 #include "delay.h"
 #include "bootloader.h"
 #include "flashupdate.h"
+#include "spicomm.h"
+#include "spicommio_stm32f3.h"
+#include "comm_commands.h"
 #include "debug.h"
+#include "version.h"
+#include "utils.h"
 
 void HSyncInterrupt() {}
 void CSyncInterrupt() {}
 void VSyncInterrupt() {}
+
+static void onRequestReceived(void *priv, uint8_t *data, uint8_t len, uint8_t *ansData, uint8_t *ansLen);
+static const SpiCommConfig spiCommConfig = {
+        .cbPrivData = 0,
+        .io = &spiCommIo,
+        .onRequestReceived = onRequestReceived,
+};
+static SpiComm spiComm;
+static bool bootPlanned;
+static bool flashingPerformed;
+static uint32_t bootTimeMs;
+
+static void onRequestReceived(void *priv, uint8_t *data, uint8_t len, uint8_t *ansData, uint8_t *ansLen)
+{
+    if (!len) {
+        *ansLen = 0;
+        return;
+    }
+
+    switch (data[0]) {
+    case REQ_ID_VERSION: {
+        ansData[0] = COMM_VERSION_MODE_BOOTLOADER;
+        strcpy((char*)(&ansData[1]), __firmwareVersion);
+        *ansLen = strlen(__firmwareVersion) + 1;
+    }
+        break;
+
+    case REQ_ID_WRITE_BEGIN: {
+        uint32_t size = GETLE32(&data[1]);
+        uint32_t offset = GETLE32(&data[5]);
+        if (size > FLASH_APPLICATION_MAX_SIZE || len < 9) {
+            ansData[0] = COMM_RESULT_ERROR;
+            *ansLen = 1;
+            return;
+        }
+        if (flashStartSequentialWrite(FLASH_DEVICE_DEFAULT, FLASH_APPLICATION_MAIN_ADDR + offset) != FLUPDATE_OK) {
+            ansData[0] = COMM_RESULT_ERROR;
+            *ansLen = 1;
+            return;
+        }
+        ansData[0] = COMM_RESULT_OK;
+        *ansLen = 1;
+    }
+    break;
+
+    case REQ_ID_WRITE_CHUNK: {
+        if (flashSequentialWrite(FLASH_DEVICE_DEFAULT, &data[1], len - 1) != FLUPDATE_OK) {
+            ansData[0] = COMM_RESULT_ERROR;
+            *ansLen = 1;
+            return;
+        }
+        ansData[0] = COMM_RESULT_OK;
+        *ansLen = 1;
+    }
+    break;
+
+    case REQ_ID_START_READ: {
+        if (len < 5) {
+            ansData[0] = COMM_RESULT_ERROR;
+            *ansLen = 1;
+            return;
+        }
+        uint32_t offset = GETLE32(&data[1]);
+        if (flashStartSequentialRead(FLASH_DEVICE_DEFAULT, FLASH_APPLICATION_MAIN_ADDR + offset) != FLUPDATE_OK) {
+            ansData[0] = COMM_RESULT_ERROR;
+            *ansLen = 1;
+            return;
+        }
+        flashingPerformed = true;
+        ansData[0] = COMM_RESULT_OK;
+        *ansLen = 1;
+    }
+    break;
+
+    case REQ_ID_READ_CHUNK:{
+        if (len < 2) {
+            ansData[0] = COMM_RESULT_ERROR;
+            *ansLen = 1;
+            return;
+        }
+        uint8_t blockSize = data[0];
+        if (flashSequentialRead(FLASH_DEVICE_DEFAULT, &ansData[1], blockSize) != FLUPDATE_OK) {
+            ansData[0] = COMM_RESULT_ERROR;
+            *ansLen = 1;
+            return;
+        }
+        ansData[0] = COMM_RESULT_OK;
+        *ansLen = 1 + blockSize;
+    }
+    break;
+
+    case REQ_ID_EXIT_BOOT: {
+        if (flashCheckAppImage(FLASH_DEVICE_DEFAULT, FLASH_APPLICATION_MAIN_ADDR, 0) != FLUPDATE_OK) {
+            ansData[0] = COMM_RESULT_ERROR;
+            *ansLen = 1;
+            return;
+        }
+        ansData[0] = COMM_RESULT_OK;
+        *ansLen = 1;
+        bootPlanned = true;
+        bootTimeMs = getElapsedMs();
+    }
+    break;
+
+    case REQ_ID_ENTER_BOOT: {
+        // we are already in boot mode
+        ansData[0] = COMM_RESULT_OK;
+        *ansLen = 1;
+    }
+    break;
+
+    default: {
+        *ansLen = 0;
+    }
+    break;
+    }
+}
 
 static void bootFirmware(void)
 {
@@ -53,17 +177,17 @@ static void bootFirmware(void)
 
 int main(void)
 {
-    dprint("bootloader pyco");
     flashInit(FLASH_DEVICE_DEFAULT);
     if (((__bl_act & BL_ACT_DIRECTION_MASK) != BL_ACT_APPTOBL) ||
             ((__bl_act & BL_ACT_ACTION_MASK) == 0)) {
         // we can try to boot immediately
         if (flashCheckAppImage(FLASH_DEVICE_DEFAULT, FLASH_APPLICATION_MAIN_ADDR, 0) == FLUPDATE_OK) {
             // firmware is OK (CRC match)
-            dprint("firmware ok");
             bootFirmware();
         }
     }
+
+    // image was corrupted or bootloader mode was requested
     boardInit();
 
     // make sure video signal can passthrough while
@@ -73,8 +197,19 @@ int main(void)
 
     sysTimerInit();
     ledInit();
-
-    while(1);
+    spiCommStart(&spiComm, &spiCommConfig);
+    while(1) {
+        spiCommProcess(&spiComm);
+        if (bootPlanned) {
+            if (getElapsedMs2(bootTimeMs) > 20) {
+                __bl_act = BL_ACT_BLTOAPP | BL_ACT_BL_ACTIVITY;
+                if (flashingPerformed)
+                    __bl_act |= BL_ACT_BL_FLASH;
+                NVIC_SystemReset();
+                while(1);
+            }
+        }
+    }
 
     return 0;
 }

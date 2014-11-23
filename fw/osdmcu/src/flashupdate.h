@@ -55,4 +55,7 @@ enum FlashUpdateRes flashEndSequentialWrite(FlashDevice_t dev);
 enum FlashUpdateRes flashSequentialWrite(FlashDevice_t dev, uint8_t *data, uint32_t size);
 uint32_t flashTimeSequentialWrite(FlashDevice_t dev, uint32_t size);
 enum FlashUpdateRes flashEraseArea(FlashDevice_t dev, uint32_t address, uint32_t size);
+enum FlashUpdateRes flashStartSequentialRead(FlashDevice_t dev, uint32_t addr);
+enum FlashUpdateRes flashSequentialRead(FlashDevice_t dev, uint8_t *data, uint32_t size);
+
 #endif /* SRC_FLASHUPDATE_H_ */
