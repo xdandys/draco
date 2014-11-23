@@ -121,7 +121,7 @@ static void onRequestReceived(void *priv, uint8_t *data, uint8_t len, uint8_t *a
             *ansLen = 1;
             return;
         }
-        uint8_t blockSize = data[0];
+        uint8_t blockSize = data[1];
         if (flashSequentialRead(FLASH_DEVICE_DEFAULT, &ansData[1], blockSize) != FLUPDATE_OK) {
             ansData[0] = COMM_RESULT_ERROR;
             *ansLen = 1;
@@ -178,7 +178,6 @@ static void bootFirmware(void)
 int main(void)
 {
     flashInit(FLASH_DEVICE_DEFAULT);
-    dprint("bootloader __bl_act = 0x%02x", __bl_act);
     if (((__bl_act & BL_ACT_DIRECTION_MASK) != BL_ACT_APPTOBL) ||
             ((__bl_act & BL_ACT_ACTION_MASK) == 0)) {
         // we can try to boot immediately
