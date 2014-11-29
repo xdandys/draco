@@ -21,26 +21,26 @@ _estack	 				= __ram_ccm_end__;      /* end of the stack */
 SECTIONS
 {
     /* application ISR vectors */
-    
+
     _isr_vectors_flash_start = ORIGIN(flash);
     .vectors ORIGIN(flash) : ALIGN(128)
     {
-    	_isr_vectors_start = . ;
-    	KEEP(*(.vectors));
-    	_isr_vectors_end = . ;
-    	. += 512 - (_isr_vectors_end - _isr_vectors_start);       /* fixed size section 512B */
+        _isr_vectors_start = . ;
+        KEEP(*(.vectors));
+        _isr_vectors_end = . ;
+        . += 512 - (_isr_vectors_end - _isr_vectors_start);       /* fixed size section 512B */
     } > flash
     _isr_vectors_flash_end = _isr_vectors_flash_start - (_isr_vectors_end * _isr_vectors_start);
-    
+
     /* application size(filled by stampelf util) */
     .app_size :
     {
-    	_sapp_size = .;
-    	KEEP(*(.app_size));
-    	_eapp_size = .;
-    	. += 4 - (_eapp_size - _sapp_size);
+        _sapp_size = .;
+        KEEP(*(.app_size));
+        _eapp_size = .;
+        . += 4 - (_eapp_size - _sapp_size);
     } > flash
-    
+
     /* code and constants*/
     .text : ALIGN(16) SUBALIGN(16)
     {
@@ -110,33 +110,33 @@ SECTIONS
     /* application version string */
     .app_version : ALIGN(4)
     {
-		/* fixed size section 32B */
-		_sapp_version = .;
-		KEEP(*(.app_version));
-		_eapp_version = .;		 
-		. += 32 - (_eapp_version - _sapp_version);    	
+        /* fixed size section 32B */
+        _sapp_version = .;
+        KEEP(*(.app_version));
+        _eapp_version = .;
+        . += 32 - (_eapp_version - _sapp_version);
     } > flash
     
     /* application time stamp(filled by stampelf util) */
     .app_time_stamp : ALIGN(4)
     {
-    	/* fixed size section 4B */
-    	_sapp_time_stamp = .;
-    	KEEP(*(.app_time_stamp));
-    	_eapp_time_stamp = .;
-    	. += 4 - (_eapp_time_stamp - _sapp_time_stamp);
+        /* fixed size section 4B */
+        _sapp_time_stamp = .;
+        KEEP(*(.app_time_stamp));
+        _eapp_time_stamp = .;
+        . += 4 - (_eapp_time_stamp - _sapp_time_stamp);
     } > flash
 
     /* application CRC-32(filled by stampelf util) */
     .app_crc : ALIGN(4)
     {
-    	/* fixed size section 4B */
-    	_sapp_crc = .;
-    	KEEP(*(.app_crc));
-    	_eapp_crc = .;
-    	. += 4 - (_eapp_crc - _sapp_crc); 
+        /* fixed size section 4B */
+        _sapp_crc = .;
+        KEEP(*(.app_crc));
+        _eapp_crc = .;
+        . += 4 - (_eapp_crc - _sapp_crc);
     } > flash
-    
+
     _app_size = SIZEOF(.text) + SIZEOF(.data) + SIZEOF(.app_version) + SIZEOF(.app_crc) + SIZEOF(.app_time_stamp);
 
     /* uninitialized data */
@@ -153,11 +153,11 @@ SECTIONS
     } > ram_ccm
     
     .dma_region (NOLOAD) : ALIGN(4) SUBALIGN(4)
-    {      
-    	_dma_region_start = .;
-    	*(.videobuffer)
-    	*(.dma)
-    	_dma_region_end = .;
+    {
+        _dma_region_start = .;
+        *(.videobuffer)
+        *(.dma)
+        _dma_region_end = .;
     } > ram
 }
 

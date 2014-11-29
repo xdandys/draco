@@ -1,6 +1,6 @@
 /*
-    DRACO - Copyright (C) 2013-2014 Daniel Strnad
-                 
+    DRACO - Copyright (C) 2014 Daniel Strnad
+
     This file is part of DRACO project.
 
     DRACO is free software; you can redistribute it and/or modify

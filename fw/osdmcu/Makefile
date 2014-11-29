@@ -35,7 +35,7 @@ ifeq ($(TARGET_TYPE), $(TARGET_BOOTLOADER))
 	SOURCES+=$(SRCDIR)/utils.c
 	SOURCES+=$(SRCDIR)/flashupdate.c
 	SOURCES+=$(SRCDIR)/spicommio_stm32f3.c
-	SOURCES+=$(SRCDIR)/spicomm.c	
+	SOURCES+=$(SRCDIR)/spicomm.c
 	SOURCES+=$(wildcard $(SRCDIR)/stm32_lib/peripherals/src/*.c)
 else ifeq ($(TARGET_TYPE), $(TARGET_FIRMWARE))
 	SOURCES+=$(SRCDIR)/startup.c
